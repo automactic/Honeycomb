@@ -7,6 +7,15 @@
 
 import Foundation
 
+enum ImageURLSuffix: String {
+    case tile50 = "tile_50"
+    case tile100 = "tile_100"
+    case tile224 = "tile_224"
+    case tile500 = "tile_500"
+    case fit720 = "fit_720"
+    case fit2048 = "fit_2048"
+}
+
 enum LibraryItem: String, CaseIterable, Identifiable {
     case browse
     case settings
@@ -32,4 +41,8 @@ enum LibraryItem: String, CaseIterable, Identifiable {
             "gear"
         }
     }
+}
+
+enum PhotosContent {
+    case all
 }
