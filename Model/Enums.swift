@@ -46,3 +46,7 @@ enum LibraryItem: String, CaseIterable, Identifiable {
 enum PhotosContent {
     case all
 }
+
+enum PhotoType: String, Codable {
+    case image, video, live
+}

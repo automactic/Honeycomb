@@ -20,6 +20,7 @@
 		970273092ACA0BE0006282AB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970273082ACA0BE0006282AB /* SettingsView.swift */; };
 		97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FB62ACA1B2200FCF810 /* PhotosView.swift */; };
 		97E03FB92ACA1C6E00FCF810 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FB82ACA1C6E00FCF810 /* DataSource.swift */; };
+		97E03FBB2ACA1DB800FCF810 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		9748919E2AC9BA6800DBFFA8 /* Honeycomb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Honeycomb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E03FB62ACA1B2200FCF810 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		97E03FB82ACA1C6E00FCF810 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,9 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				970272F92AC9BCC5006282AB /* Constants.swift */,
+				97E03FB82ACA1C6E00FCF810 /* DataSource.swift */,
 				970272FF2AC9C977006282AB /* Entities.swift */,
 				970273042AC9F6E1006282AB /* Enums.swift */,
-				97E03FB82ACA1C6E00FCF810 /* DataSource.swift */,
+				97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 				970272F22AC9BABF006282AB /* Item.swift in Sources */,
 				97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */,
 				970273052AC9F6E1006282AB /* Enums.swift in Sources */,
+				97E03FBB2ACA1DB800FCF810 /* PhotosViewModel.swift in Sources */,
 				97E03FB92ACA1C6E00FCF810 /* DataSource.swift in Sources */,
 				970272FE2AC9BEF5006282AB /* SignInView.swift in Sources */,
 			);
