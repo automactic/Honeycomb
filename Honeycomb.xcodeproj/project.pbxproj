@@ -12,7 +12,10 @@
 		970272F22AC9BABF006282AB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272EF2AC9BABF006282AB /* Item.swift */; };
 		970272F42AC9BAC9006282AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 970272F32AC9BAC9006282AB /* Assets.xcassets */; };
 		970272F72AC9BAF4006282AB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 970272F62AC9BAF4006282AB /* Preview Assets.xcassets */; };
-		970272FA2AC9BCC5006282AB /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272F92AC9BCC5006282AB /* Enums.swift */; };
+		970272FA2AC9BCC5006282AB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272F92AC9BCC5006282AB /* Constants.swift */; };
+		970272FE2AC9BEF5006282AB /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272FD2AC9BEF5006282AB /* SignInView.swift */; };
+		970273002AC9C977006282AB /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272FF2AC9C977006282AB /* Entities.swift */; };
+		970273032AC9CCCC006282AB /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970273022AC9CCCC006282AB /* Attribute.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +24,10 @@
 		970272EF2AC9BABF006282AB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		970272F32AC9BAC9006282AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		970272F62AC9BAF4006282AB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		970272F92AC9BCC5006282AB /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		970272F92AC9BCC5006282AB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		970272FD2AC9BEF5006282AB /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		970272FF2AC9C977006282AB /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
+		970273022AC9CCCC006282AB /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
 		9748919E2AC9BA6800DBFFA8 /* Honeycomb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Honeycomb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -47,15 +53,34 @@
 		970272F82AC9BCBB006282AB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				970272F92AC9BCC5006282AB /* Enums.swift */,
+				970272F92AC9BCC5006282AB /* Constants.swift */,
+				970272FF2AC9C977006282AB /* Entities.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		970272FC2AC9BED2006282AB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				970273012AC9CCB7006282AB /* Components */,
+				970272FD2AC9BEF5006282AB /* SignInView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		970273012AC9CCB7006282AB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				970273022AC9CCCC006282AB /* Attribute.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		974891952AC9BA6800DBFFA8 = {
 			isa = PBXGroup;
 			children = (
 				970272F82AC9BCBB006282AB /* Model */,
+				970272FC2AC9BED2006282AB /* View */,
 				970272EE2AC9BABF006282AB /* App.swift */,
 				970272ED2AC9BABF006282AB /* ContentView.swift */,
 				970272EF2AC9BABF006282AB /* Item.swift */,
@@ -165,10 +190,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				970273002AC9C977006282AB /* Entities.swift in Sources */,
 				970272F12AC9BABF006282AB /* App.swift in Sources */,
 				970272F02AC9BABF006282AB /* ContentView.swift in Sources */,
-				970272FA2AC9BCC5006282AB /* Enums.swift in Sources */,
+				970272FA2AC9BCC5006282AB /* Constants.swift in Sources */,
+				970273032AC9CCCC006282AB /* Attribute.swift in Sources */,
 				970272F22AC9BABF006282AB /* Item.swift in Sources */,
+				970272FE2AC9BEF5006282AB /* SignInView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

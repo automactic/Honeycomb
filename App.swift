@@ -23,20 +23,23 @@ struct Honeycomb: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
         .modelContainer(sharedModelContainer)
     }
 }
 
 private struct RootView: View {
-    @AppStorage(StorageKeys.sessionID.rawValue) private var sessionID: String?
-
+    @AppStorage(StorageKeys.sessionID) private var sessionID: String?
+    @State private var isPresentingSignIn = false
+    
     var body: some View {
-        if sessionID == nil {
-            Text("Login")
-        } else {
-            ContentView()
-        }
+        ContentView()
+            .onAppear {
+                isPresentingSignIn = sessionID == nil
+            }
+            .sheet(isPresented: $isPresentingSignIn) {
+                SignInView().interactiveDismissDisabled()
+            }
     }
 }
