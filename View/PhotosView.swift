@@ -25,15 +25,31 @@ struct PhotosView: View {
                     } label: {
                         LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
                             .aspectRatio(1, contentMode: .fill)
+                    }.task {
+                        guard photo.id == viewModel.photos.last?.id else { return }
+                        await viewModel.loadNext()
                     }
                 }
             }
+            HStack(spacing: 10) {
+                if viewModel.isLoading {
+                    ProgressView()
+                    Text("Loading ...")
+                } else {
+                    Label("\(viewModel.photos.count.formatted()) photos", systemImage: "photo.stack")
+                }
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .padding()
+            .background { Color(uiColor: .secondarySystemBackground) }
+            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
         }
         .animation(.default, value: displayMode)
-        .background(Color(uiColor: .systemGroupedBackground))
         .searchable(text: $viewModel.searchText)
         .autocorrectionDisabled()
         .textInputAutocapitalization(.never)
+        .toolbarRole(.browser)
         .toolbar {
             Picker("Display Mode", selection: $displayMode) {
                 ForEach(PhotosDisplayMode.allCases) { displayMode in
