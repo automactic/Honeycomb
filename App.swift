@@ -42,7 +42,7 @@ private struct RootView: View {
             } else if horizontalSizeClass == .regular {
                 NavigationSplitView {
                     List(LibraryItem.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
-                        Label(libraryItem.name, systemImage: libraryItem.imageName)
+                        Label(libraryItem.name, systemImage: libraryItem.icon)
                     }
                 } detail: {
                     NavigationStack {
@@ -55,7 +55,7 @@ private struct RootView: View {
                         NavigationStack {
                             NavigationContent(libraryItem: libraryItem)
                         }
-                        .tabItem { Label(libraryItem.name, systemImage: libraryItem.imageName) }
+                        .tabItem { Label(libraryItem.name, systemImage: libraryItem.icon) }
                         .tag(libraryItem)
                     }
                 }
@@ -87,7 +87,7 @@ private struct NavigationContent: View {
     var body: some View {
         switch libraryItem {
         case .browse:
-            Text("browse")
+            PhotosView(content: .all).navigationTitle(libraryItem.name)
         case .settings:
             SettingsView()
         }

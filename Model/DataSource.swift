@@ -30,6 +30,7 @@ class DataSource {
             url.append(path: path)
         }
         url.append(queryItems: queryItems)
+        print(url)
         
         // get data
         let (data, response) = try await urlSession.data(from: url)

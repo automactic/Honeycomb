@@ -33,7 +33,7 @@ enum LibraryItem: String, CaseIterable, Identifiable {
         }
     }
     
-    var imageName: String {
+    var icon: String {
         switch self {
         case .browse:
             "photo.on.rectangle.angled"
@@ -45,6 +45,40 @@ enum LibraryItem: String, CaseIterable, Identifiable {
 
 enum PhotosContent {
     case all
+}
+
+enum PhotosDisplayMode: String, CaseIterable, Identifiable {
+    case largeGrid, mediumGrid, smallGrid, linear
+    
+    var id: String {
+        rawValue
+    }
+    
+    var name: String {
+        switch self {
+        case .largeGrid:
+            "Large"
+        case .mediumGrid:
+            "Medium"
+        case .smallGrid:
+            "Small"
+        case .linear:
+            "Linear"
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .largeGrid:
+            "square.inset.filled"
+        case .mediumGrid:
+            "square.grid.2x2.fill"
+        case .smallGrid:
+            "square.grid.3x3.fill"
+        case .linear:
+            "text.below.photo"
+        }
+    }
 }
 
 enum PhotoType: String, Codable {
