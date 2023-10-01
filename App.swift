@@ -31,15 +31,19 @@ struct Honeycomb: App {
 
 private struct RootView: View {
     @AppStorage(StorageKeys.sessionID) private var sessionID: String?
-    @State private var isPresentingSignIn = false
+    @State private var isSignInPresented = false
     
     var body: some View {
         ContentView()
             .onAppear {
-                isPresentingSignIn = sessionID == nil
+                isSignInPresented = sessionID == nil
             }
-            .sheet(isPresented: $isPresentingSignIn) {
-                SignInView().interactiveDismissDisabled()
+            .sheet(isPresented: $isSignInPresented) {
+                SignInView(isPresented: $isSignInPresented).interactiveDismissDisabled()
             }
     }
+}
+
+#Preview {
+    RootView()
 }
