@@ -31,16 +31,66 @@ struct Honeycomb: App {
 
 private struct RootView: View {
     @AppStorage(StorageKeys.sessionID) private var sessionID: String?
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @SceneStorage(StorageKeys.selectedLibraryItem) private var selectedLibraryItem: LibraryItem = .browse
     @State private var isSignInPresented = false
     
     var body: some View {
-        ContentView()
-            .onAppear {
-                isSignInPresented = sessionID == nil
+        Group {
+            if sessionID == nil {
+                EmptyView()
+            } else if horizontalSizeClass == .regular {
+                NavigationSplitView {
+                    List(LibraryItem.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
+                        Label(libraryItem.name, systemImage: libraryItem.imageName)
+                    }
+                } detail: {
+                    NavigationStack {
+                        NavigationContent(libraryItem: selectedLibraryItem)
+                    }
+                }
+            } else {
+                TabView(selection: $selectedLibraryItem) {
+                    ForEach(LibraryItem.allCases) { libraryItem in
+                        NavigationStack {
+                            NavigationContent(libraryItem: libraryItem)
+                        }
+                        .tabItem { Label(libraryItem.name, systemImage: libraryItem.imageName) }
+                        .tag(libraryItem)
+                    }
+                }
             }
-            .sheet(isPresented: $isSignInPresented) {
-                SignInView(isPresented: $isSignInPresented).interactiveDismissDisabled()
-            }
+        }
+        .onAppear {
+            isSignInPresented = sessionID == nil
+        }
+        .onChange(of: sessionID) { _, newValue in
+            isSignInPresented = newValue == nil
+        }
+        .sheet(isPresented: $isSignInPresented) {
+            SignInView(isPresented: $isSignInPresented).interactiveDismissDisabled()
+        }
+    }
+    
+    private var selectedSidebarItem: Binding<LibraryItem?> {
+        Binding {
+            selectedLibraryItem
+        } set: { newValue in
+            selectedLibraryItem = newValue ?? .browse
+        }
+    }
+}
+
+private struct NavigationContent: View {
+    let libraryItem: LibraryItem
+    
+    var body: some View {
+        switch libraryItem {
+        case .browse:
+            Text("browse")
+        case .settings:
+            SettingsView()
+        }
     }
 }
 

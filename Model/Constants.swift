@@ -9,6 +9,7 @@ import Foundation
 
 struct StorageKeys {
     static let previewToken = "PreviewToken"
+    static let selectedLibraryItem = "SelectedLibraryItem"
     static let serverURL = "ServerURL"
     static let sessionID = "SessionID"
 }
