@@ -11,9 +11,7 @@ import SwiftData
 @main
 struct Honeycomb: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
+        let schema = Schema([Item.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -28,5 +26,17 @@ struct Honeycomb: App {
             ContentView()
         }
         .modelContainer(sharedModelContainer)
+    }
+}
+
+private struct RootView: View {
+    @AppStorage(StorageKeys.sessionID.rawValue) private var sessionID: String?
+
+    var body: some View {
+        if sessionID == nil {
+            Text("Login")
+        } else {
+            ContentView()
+        }
     }
 }
