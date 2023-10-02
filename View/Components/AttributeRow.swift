@@ -1,5 +1,5 @@
 //
-//  Attribute.swift
+//  AttributeRow.swift
 //  Honeycomb
 //
 //  Created by Chris Li on 10/1/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Attribute: View {
+struct AttributeRow: View {
     let title: String
     let detail: String
     
