@@ -36,7 +36,7 @@ struct PhotosView: View {
                     ProgressView()
                     Text("Loading ...")
                 } else {
-                    Label("\(viewModel.photos.count.formatted()) photos", systemImage: "photo.stack")
+                    Label("\(viewModel.photos.count.formatted()) photo(s)", systemImage: "photo.stack")
                 }
             }
             .font(.subheadline)

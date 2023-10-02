@@ -48,7 +48,7 @@ enum PhotosContent {
 }
 
 enum PhotosDisplayMode: String, CaseIterable, Identifiable {
-    case largeGrid, mediumGrid, smallGrid, linear
+    case largeGrid, mediumGrid, smallGrid
     
     var id: String {
         rawValue
@@ -62,8 +62,6 @@ enum PhotosDisplayMode: String, CaseIterable, Identifiable {
             "Medium"
         case .smallGrid:
             "Small"
-        case .linear:
-            "Linear"
         }
     }
     
@@ -75,8 +73,6 @@ enum PhotosDisplayMode: String, CaseIterable, Identifiable {
             "square.grid.2x2.fill"
         case .smallGrid:
             "square.grid.3x3.fill"
-        case .linear:
-            "text.below.photo"
         }
     }
 }
