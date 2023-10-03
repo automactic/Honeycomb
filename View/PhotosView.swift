@@ -65,7 +65,7 @@ struct PhotosView: View {
             }
         }
         .navigationDestination(for: Photo.self) { photo in
-            ImageViewer(photo: photo)
+            GalleryView2(photo: photo).environment(viewModel)
         }
         .onChange(of: viewModel.searchText) {
             taskID = UUID()
@@ -98,15 +98,6 @@ struct PhotosView: View {
     }
 }
 
-struct ImageViewer: View {
-    
-    let photo: Photo
-    
-    var body: some View {
-        AsyncImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .fit2048))
-    }
-}
-
 struct LazyImage: View {
     @State private var data: Data?
     @State private var failed = false
@@ -116,7 +107,7 @@ struct LazyImage: View {
     var body: some View {
         Group {
             if let data, let image = UIImage(data: data) {
-                Image(uiImage: image).resizable()
+                Image(uiImage: image).resizable().scaledToFit()
             } else {
                 VStack {
                     Spacer()
@@ -140,7 +131,9 @@ struct LazyImage: View {
 }
 
 #Preview {
-    NavigationStack {
-        PhotosView(content: .all)
+    TabView {
+        NavigationStack {
+            PhotosView(content: .all)
+        }
     }
 }
