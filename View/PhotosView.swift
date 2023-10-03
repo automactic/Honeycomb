@@ -11,39 +11,46 @@ struct PhotosView: View {
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var viewModel: PhotosViewModel
+    @State private var taskID: UUID?
     
     init(content: PhotosContent) {
         _viewModel = State(initialValue: PhotosViewModel(content: content))
     }
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 2) {
-                ForEach(viewModel.photos) { photo in
-                    Button {
-                        
-                    } label: {
-                        LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
-                            .aspectRatio(1, contentMode: .fill)
-                    }.task {
-                        guard photo.id == viewModel.photos.last?.id else { return }
-                        await viewModel.loadNext()
+        Group {
+            if viewModel.photos.isEmpty, viewModel.isLoading {
+                ProgressView()
+            } else if viewModel.photos.isEmpty, !viewModel.isLoading {
+                Text("No photos")
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 2) {
+                        ForEach(viewModel.photos) { photo in
+                            NavigationLink(value: photo) {
+                                LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
+                                    .aspectRatio(1, contentMode: .fill)
+                            }.task {
+                                guard photo.id == viewModel.photos.last?.id else { return }
+                                await viewModel.loadNext()
+                            }
+                        }
                     }
+                    HStack(spacing: 10) {
+                        if viewModel.isLoading {
+                            ProgressView()
+                            Text("Loading ...")
+                        } else {
+                            Label("\(viewModel.photos.count.formatted()) photo(s)", systemImage: "photo.stack")
+                        }
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding()
+                    .background { Color(uiColor: .secondarySystemBackground) }
+                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                 }
             }
-            HStack(spacing: 10) {
-                if viewModel.isLoading {
-                    ProgressView()
-                    Text("Loading ...")
-                } else {
-                    Label("\(viewModel.photos.count.formatted()) photo(s)", systemImage: "photo.stack")
-                }
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .padding()
-            .background { Color(uiColor: .secondarySystemBackground) }
-            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
         }
         .animation(.default, value: displayMode)
         .searchable(text: $viewModel.searchText)
@@ -57,14 +64,16 @@ struct PhotosView: View {
                 }
             }
         }
+        .navigationDestination(for: Photo.self) { photo in
+            ImageViewer(photo: photo)
+        }
         .onChange(of: viewModel.searchText) {
-            Task { await viewModel.reload() }
+            taskID = UUID()
         }
         .refreshable {
-            await viewModel.reload()
+            taskID = UUID()
         }
-        .task {
-            guard viewModel.photos.isEmpty else { return }
+        .task(id: taskID) {
             await viewModel.reload()
         }
     }
@@ -86,6 +95,15 @@ struct PhotosView: View {
         default:
             []
         }
+    }
+}
+
+struct ImageViewer: View {
+    
+    let photo: Photo
+    
+    var body: some View {
+        AsyncImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .fit2048))
     }
 }
 
