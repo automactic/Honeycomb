@@ -19,10 +19,8 @@ struct PhotosView: View {
     
     var body: some View {
         Group {
-            if viewModel.photos.isEmpty, viewModel.isLoading {
-                ProgressView()
-            } else if viewModel.photos.isEmpty, !viewModel.isLoading {
-                Text("No photos")
+            if viewModel.photos.isEmpty, viewModel.allPagesLoaded {
+                ContentUnavailableView("No Photos", systemImage: "photo.on.rectangle.angled")
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 2) {
@@ -36,19 +34,6 @@ struct PhotosView: View {
                             }
                         }
                     }
-                    HStack(spacing: 10) {
-                        if viewModel.isLoading {
-                            ProgressView()
-                            Text("Loading ...")
-                        } else {
-                            Label("\(viewModel.photos.count.formatted()) photo(s)", systemImage: "photo.stack")
-                        }
-                    }
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .padding()
-                    .background { Color(uiColor: .secondarySystemBackground) }
-                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                 }
             }
         }
@@ -67,15 +52,24 @@ struct PhotosView: View {
         .navigationDestination(for: Photo.self) { photo in
             GalleryView(photo: photo).environment(viewModel)
         }
-        .onChange(of: viewModel.searchText) {
-            taskID = UUID()
+        .overlay(alignment: .bottom) {
+            if viewModel.isLoading {
+                LoadingView().padding()
+            }
         }
-        .refreshable {
-            taskID = UUID()
-        }
-        .task(id: taskID) {
+//        .onChange(of: viewModel.searchText) {
+//            taskID = UUID()
+//        }
+//        .refreshable {
+//            taskID = UUID()
+//        }
+        .task(id: viewModel.searchText) {
             await viewModel.reload()
         }
+//        .task(id: taskID) {
+//            print(taskID)
+//            await viewModel.reload()
+//        }
     }
     
     var columns: [GridItem] {

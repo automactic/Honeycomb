@@ -19,3 +19,17 @@ struct AttributeRow: View {
         }
     }
 }
+
+struct LoadingView: View {
+    var body: some View {
+        HStack(spacing: 10) {
+            ProgressView()
+            Text("Loading ...")
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .padding()
+        .background { Color(uiColor: .secondarySystemBackground) }
+        .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+    }
+}
