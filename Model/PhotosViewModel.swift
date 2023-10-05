@@ -47,6 +47,7 @@ class PhotosViewModel: DataSource {
             allPagesLoaded = false
             photos = try await get(offset: 0)
             offset = count
+            allPagesLoaded = photos.isEmpty
         } catch {
             
         }
