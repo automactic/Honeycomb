@@ -22,26 +22,21 @@ struct PhotosView: View {
             if viewModel.photos.isEmpty, viewModel.allPagesLoaded {
                 ContentUnavailableView("No Photos", systemImage: "photo.on.rectangle.angled")
             } else {
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 2) {
-                        ForEach(viewModel.photos) { photo in
-                            NavigationLink(value: photo) {
-                                LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
-                                    .aspectRatio(1, contentMode: .fill)
-                            }.task {
-                                guard photo.id == viewModel.photos.last?.id else { return }
-                                await viewModel.loadNext()
-                            }
-                        }
-                    }
-                }
+                PhotosGridView()
             }
         }
         .animation(.default, value: displayMode)
-        .searchable(text: $viewModel.searchText)
         .autocorrectionDisabled()
+        .environment(viewModel)
+        .navigationDestination(for: Photo.self) { GalleryView(photo: $0).environment(viewModel) }
+        .searchable(text: $viewModel.searchText)
         .textInputAutocapitalization(.never)
         .toolbarRole(.browser)
+        .overlay(alignment: .bottom) {
+            if viewModel.isLoading {
+                LoadingView().padding()
+            }
+        }
         .toolbar {
             Picker("Display Mode", selection: $displayMode) {
                 ForEach(PhotosDisplayMode.allCases) { displayMode in
@@ -49,27 +44,36 @@ struct PhotosView: View {
                 }
             }
         }
-        .navigationDestination(for: Photo.self) { photo in
-            GalleryView(photo: photo).environment(viewModel)
-        }
-        .overlay(alignment: .bottom) {
-            if viewModel.isLoading {
-                LoadingView().padding()
+    }
+}
+
+struct PhotosGridView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.isSearching) private var isSearching
+    @Environment(PhotosViewModel.self) private var viewModel
+    @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 2) {
+                ForEach(viewModel.photos) { photo in
+                    NavigationLink(value: photo) {
+                        LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
+                            .aspectRatio(1, contentMode: .fill)
+                    }.task {
+                        guard photo.id == viewModel.photos.last?.id else { return }
+                        await viewModel.loadNext()
+                    }
+                }
             }
         }
-//        .onChange(of: viewModel.searchText) {
-//            taskID = UUID()
-//        }
-//        .refreshable {
-//            taskID = UUID()
-//        }
-        .task(id: viewModel.searchText) {
+        .refreshable {
             await viewModel.reload()
         }
-//        .task(id: taskID) {
-//            print(taskID)
-//            await viewModel.reload()
-//        }
+        .task(id: viewModel.searchText) {
+            guard isSearching || viewModel.photos.isEmpty else { return }
+            await viewModel.reload()
+        }
     }
     
     var columns: [GridItem] {
