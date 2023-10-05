@@ -10,8 +10,8 @@ import SwiftUI
 struct PhotosView: View {
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @State private var viewModel: PhotosViewModel
     @State private var taskID: UUID?
+    @State private var viewModel: PhotosViewModel
     
     init(content: PhotosContent) {
         _viewModel = State(initialValue: PhotosViewModel(content: content))
@@ -65,7 +65,7 @@ struct PhotosView: View {
             }
         }
         .navigationDestination(for: Photo.self) { photo in
-            GalleryView2(photo: photo).environment(viewModel)
+            GalleryView(photo: photo).environment(viewModel)
         }
         .onChange(of: viewModel.searchText) {
             taskID = UUID()
