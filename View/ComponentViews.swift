@@ -1,5 +1,5 @@
 //
-//  AttributeRow.swift
+//  ComponentViews.swift
 //  Honeycomb
 //
 //  Created by Chris Li on 10/1/23.
