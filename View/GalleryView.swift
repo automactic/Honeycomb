@@ -59,6 +59,9 @@ struct CarouselView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(PhotosViewModel.self) private var viewModel
     
+    private let cornerRadius = 4.0
+    private let highlightLineWidth = 3.0
+    
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal) {
@@ -71,26 +74,28 @@ struct CarouselView: View {
                         } label: {
                             AsyncImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile224)) { image in
                                 image.resizable()
+                                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .circular))
                             } placeholder: {
                                 ProgressView()
                             }
                             .frame(width: thumbImageDimension, height: thumbImageDimension)
-                            .clipShape(RoundedRectangle(cornerRadius: 2, style: .circular))
                             .overlay {
                                 if self.photo.id == photo.id {
-                                    RoundedRectangle(cornerRadius: 2, style: .circular)
-                                        .stroke(Color.blue, lineWidth: 2)
+                                    RoundedRectangle(cornerRadius: cornerRadius, style: .circular)
+                                        .stroke(Color.blue, lineWidth: highlightLineWidth)
                                 }
                             }
                         }.buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal)
-                .frame(height: thumbImageDimension + 4)
+                .frame(height: thumbImageDimension + highlightLineWidth * 2)
             }
             .scrollIndicators(.never)
             .onChange(of: photo, initial: true) {
-                proxy.scrollTo(photo.id, anchor: .center)
+                withAnimation {
+                    proxy.scrollTo(photo.id, anchor: .center)
+                }
             }
         }
     }
