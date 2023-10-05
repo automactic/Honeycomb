@@ -23,6 +23,7 @@ struct GalleryView: View {
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
+        .navigationTitle(photo.takenAt.formatted())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -92,7 +93,10 @@ struct CarouselView: View {
                 .frame(height: thumbImageDimension + highlightLineWidth * 2)
             }
             .scrollIndicators(.never)
-            .onChange(of: photo, initial: true) {
+            .onAppear {
+                proxy.scrollTo(photo.id, anchor: .center)
+            }
+            .onChange(of: photo) {
                 withAnimation {
                     proxy.scrollTo(photo.id, anchor: .center)
                 }
