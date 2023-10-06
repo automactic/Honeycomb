@@ -19,7 +19,12 @@ struct GalleryView: View {
     var body: some View {
         TabView(selection: $photo) {
             ForEach(viewModel.photos, id: \.self) { photo in
-                ImageViewer(photo: photo)
+                Group {
+                    ImageViewer(photo: photo)
+                }.task {
+                    guard photo.id == viewModel.photos.last?.id else { return }
+                    await viewModel.loadNext()
+                }
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
