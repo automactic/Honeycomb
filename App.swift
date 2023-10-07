@@ -87,10 +87,8 @@ private struct NavigationContent: View {
     
     var body: some View {
         switch tab {
-        case .browse:
-            PhotosView(content: .all).navigationTitle(tab.name)
-        case .favorite:
-            EmptyView()
+        case .browse, .favorite:
+            PhotosView(tab: tab).navigationTitle(tab.name)
         case .settings:
             SettingsView()
         }

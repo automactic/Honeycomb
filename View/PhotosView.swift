@@ -11,8 +11,8 @@ struct PhotosView: View {
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
     @State private var viewModel: PhotosViewModel
     
-    init(content: PhotosContent) {
-        _viewModel = State(initialValue: PhotosViewModel(content: content))
+    init(tab: Tab) {
+        _viewModel = State(initialValue: PhotosViewModel(tab: tab))
     }
     
     var body: some View {
@@ -130,7 +130,7 @@ struct LazyImage: View {
 #Preview {
     TabView {
         NavigationStack {
-            PhotosView(content: .all)
+            PhotosView(tab: .browse)
         }
     }
 }
