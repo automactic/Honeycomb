@@ -57,10 +57,14 @@ struct PhotosGridView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 2) {
                 ForEach(viewModel.photos) { photo in
-                    NavigationLink(value: photo) {
-                        LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
-                            .aspectRatio(1, contentMode: .fill)
+                    GeometryReader { geometry in
+                        NavigationLink(value: photo) {
+                            LazyImage(
+                                url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500), size: geometry.size
+                            )
+                        }
                     }
+                    .aspectRatio(1, contentMode: .fill)
                     .task(priority: .low) {
                         guard photo.id == viewModel.photos.last?.id else { return }
                         await viewModel.loadNext()
@@ -100,14 +104,15 @@ struct PhotosGridView: View {
 
 struct LazyImage: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var data: Data?
+    @State private var image: UIImage?
     @State private var failed = false
     
     let url: URL?
+    let size: CGSize
     
     var body: some View {
         Group {
-            if let data, let image = UIImage(data: data) {
+            if let image {
                 Image(uiImage: image).resizable().scaledToFit()
             } else if failed {
                 Color(uiColor: .secondarySystemGroupedBackground).overlay {
@@ -118,19 +123,20 @@ struct LazyImage: View {
                     ProgressView()
                 }
             }
-        }.task {
+        }
+        .task(id: size, priority: .medium) {
             guard let url = url else { return }
             let fetchDescriptor = FetchDescriptor<CachedImage>(predicate: #Predicate { cachedImage in
                 cachedImage.url == url.absoluteString
             })
             if let cachedImage = try? modelContext.fetch(fetchDescriptor).first {
-                data = cachedImage.data
                 cachedImage.lastUsed = Date()
+                image = await UIImage(data: cachedImage.data)?.byPreparingThumbnail(ofSize: size)
             } else {
                 do {
                     let data = try await URLSession.shared.data(from: url).0
                     modelContext.insert(CachedImage(url: url.absoluteString, data: data, lastUsed: Date()))
-                    self.data = data
+                    image = await UIImage(data: data)?.byPreparingThumbnail(ofSize: size)
                 } catch {
                     failed = true
                 }
