@@ -125,10 +125,11 @@ struct LazyImage: View {
             })
             if let cachedImage = try? modelContext.fetch(fetchDescriptor).first {
                 data = cachedImage.data
+                cachedImage.lastUsed = Date()
             } else {
                 do {
                     let data = try await URLSession.shared.data(from: url).0
-                    modelContext.insert(CachedImage(url: url.absoluteString, data: data))
+                    modelContext.insert(CachedImage(url: url.absoluteString, data: data, lastUsed: Date()))
                     self.data = data
                 } catch {
                     failed = true

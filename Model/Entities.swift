@@ -16,10 +16,14 @@ struct APIError: Codable {
 class CachedImage {
     @Attribute(.unique) let url: String
     let data: Data
-
-    init(url: String, data: Data) {
+    let size: Int
+    var lastUsed: Date
+    
+    init(url: String, data: Data, lastUsed: Date) {
         self.url = url
         self.data = data
+        self.size = data.count
+        self.lastUsed = lastUsed
     }
 }
 
