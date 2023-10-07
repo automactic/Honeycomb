@@ -126,21 +126,30 @@ struct LazyImage: View {
         }
         .task(id: size, priority: .medium) {
             guard let url = url else { return }
-            let fetchDescriptor = FetchDescriptor<CachedImage>(predicate: #Predicate { cachedImage in
-                cachedImage.url == url.absoluteString
-            })
-            if let cachedImage = try? modelContext.fetch(fetchDescriptor).first {
-                cachedImage.lastUsed = Date()
-                image = await UIImage(data: cachedImage.data)?.byPreparingThumbnail(ofSize: size)
-            } else {
-                do {
-                    let data = try await URLSession.shared.data(from: url).0
-                    modelContext.insert(CachedImage(url: url.absoluteString, data: data, lastUsed: Date()))
-                    image = await UIImage(data: data)?.byPreparingThumbnail(ofSize: size)
-                } catch {
-                    failed = true
-                }
+            do {
+                let data = try await getImageData(container: modelContext.container, url: url)
+                let transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                image = await UIImage(data: data)?.byPreparingThumbnail(ofSize: size.applying(transform))
+            } catch {
+                failed = true
             }
+        }
+    }
+    
+    private func getImageData(container: ModelContainer, url: URL) async throws -> Data {
+        let modelContext = ModelContext(container)
+        let fetchDescriptor = FetchDescriptor<CachedImage>(predicate: #Predicate { cachedImage in
+            cachedImage.url == url.absoluteString
+        })
+        if let cachedImage = try? modelContext.fetch(fetchDescriptor).first {
+            cachedImage.lastUsed = Date()
+            try modelContext.save()
+            return cachedImage.data
+        } else {
+            let data = try await URLSession.shared.data(from: url).0
+            modelContext.insert(CachedImage(url: url.absoluteString, data: data, lastUsed: Date()))
+            try modelContext.save()
+            return data
         }
     }
 }
