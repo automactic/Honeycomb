@@ -11,6 +11,7 @@ struct SettingsView: View {
     @AppStorage(StorageKeys.serverURL) private var serverURL = ""
     @AppStorage(StorageKeys.sessionID) private var sessionID: String?
     @AppStorage(StorageKeys.previewToken) private var previewToken: String?
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         Form {
@@ -21,6 +22,7 @@ struct SettingsView: View {
                 Button("Sign Out", role: .destructive) {
                     sessionID = nil
                     previewToken = nil
+                    modelContext.container.deleteAllData()
                 }
             }
         }.navigationTitle("Settings")
