@@ -23,8 +23,8 @@ struct PhotosView: View {
                 PhotosGridView()
             }
         }
-        
         .autocorrectionDisabled()
+        .background(Color(uiColor: .systemGroupedBackground))
         .environment(viewModel)
         .navigationDestination(for: Photo.self) { GalleryView(photo: $0).environment(viewModel) }
         .searchable(text: $viewModel.searchText)
@@ -59,7 +59,8 @@ struct PhotosGridView: View {
                     NavigationLink(value: photo) {
                         LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
                             .aspectRatio(1, contentMode: .fill)
-                    }.task {
+                    }
+                    .task(priority: .low) {
                         guard photo.id == viewModel.photos.last?.id else { return }
                         await viewModel.loadNext()
                     }
@@ -106,19 +107,17 @@ struct LazyImage: View {
         Group {
             if let data, let image = UIImage(data: data) {
                 Image(uiImage: image).resizable().scaledToFit()
+            } else if failed {
+                Color(uiColor: .secondarySystemGroupedBackground).overlay {
+                    Image(systemName: "exclamationmark.triangle.fill").symbolRenderingMode(.multicolor)
+                }
             } else {
-                VStack {
-                    Spacer()
-                    if failed {
-                        Image(systemName: "exclamationmark.triangle.fill").symbolRenderingMode(.multicolor)
-                    } else {
-                        ProgressView()
-                    }
-                    Spacer()
+                Color.clear.overlay {
+                    ProgressView()
                 }
             }
         }.task {
-            guard let url = url else { return }
+            guard let url = url, data == nil else { return }
             do {
                 data = try await URLSession.shared.data(from: url).0
             } catch {
