@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		970272F02AC9BABF006282AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272ED2AC9BABF006282AB /* ContentView.swift */; };
 		970272F12AC9BABF006282AB /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272EE2AC9BABF006282AB /* App.swift */; };
-		970272F22AC9BABF006282AB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272EF2AC9BABF006282AB /* Item.swift */; };
 		970272F42AC9BAC9006282AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 970272F32AC9BAC9006282AB /* Assets.xcassets */; };
 		970272F72AC9BAF4006282AB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 970272F62AC9BAF4006282AB /* Preview Assets.xcassets */; };
 		970272FA2AC9BCC5006282AB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970272F92AC9BCC5006282AB /* Constants.swift */; };
@@ -27,7 +26,6 @@
 /* Begin PBXFileReference section */
 		970272ED2AC9BABF006282AB /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		970272EE2AC9BABF006282AB /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-		970272EF2AC9BABF006282AB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		970272F32AC9BAC9006282AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		970272F62AC9BAF4006282AB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		970272F92AC9BCC5006282AB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 				970272FC2AC9BED2006282AB /* View */,
 				970272EE2AC9BABF006282AB /* App.swift */,
 				970272ED2AC9BABF006282AB /* ContentView.swift */,
-				970272EF2AC9BABF006282AB /* Item.swift */,
 				970272F32AC9BAC9006282AB /* Assets.xcassets */,
 				970272F52AC9BAF4006282AB /* Preview Content */,
 				9748919F2AC9BA6800DBFFA8 /* Products */,
@@ -207,7 +204,6 @@
 				97360F642ACBAC4800C8F51C /* GalleryView.swift in Sources */,
 				970272FA2AC9BCC5006282AB /* Constants.swift in Sources */,
 				970273032AC9CCCC006282AB /* ComponentViews.swift in Sources */,
-				970272F22AC9BABF006282AB /* Item.swift in Sources */,
 				97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */,
 				970273052AC9F6E1006282AB /* Enums.swift in Sources */,
 				97E03FBB2ACA1DB800FCF810 /* PhotosViewModel.swift in Sources */,

@@ -6,9 +6,21 @@
 //
 
 import Foundation
+import SwiftData
 
 struct APIError: Codable {
     let error: String
+}
+
+@Model
+class CachedImage {
+    @Attribute(.unique) let url: String
+    let data: Data
+
+    init(url: String, data: Data) {
+        self.url = url
+        self.data = data
+    }
 }
 
 struct File: Codable, Hashable, Identifiable {

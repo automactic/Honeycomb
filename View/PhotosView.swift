@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PhotosView: View {
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
@@ -98,6 +99,7 @@ struct PhotosGridView: View {
 }
 
 struct LazyImage: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var data: Data?
     @State private var failed = false
     
@@ -117,11 +119,20 @@ struct LazyImage: View {
                 }
             }
         }.task {
-            guard let url = url, data == nil else { return }
-            do {
-                data = try await URLSession.shared.data(from: url).0
-            } catch {
-                failed = true
+            guard let url = url else { return }
+            let fetchDescriptor = FetchDescriptor<CachedImage>(predicate: #Predicate { cachedImage in
+                cachedImage.url == url.absoluteString
+            })
+            if let cachedImage = try? modelContext.fetch(fetchDescriptor).first {
+                data = cachedImage.data
+            } else {
+                do {
+                    let data = try await URLSession.shared.data(from: url).0
+                    modelContext.insert(CachedImage(url: url.absoluteString, data: data))
+                    self.data = data
+                } catch {
+                    failed = true
+                }
             }
         }
     }

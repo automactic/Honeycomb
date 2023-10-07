@@ -11,11 +11,10 @@ import SwiftData
 @main
 struct Honeycomb: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([Item.self])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        let schema = Schema([CachedImage.self])
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
@@ -24,8 +23,7 @@ struct Honeycomb: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-        }
-        .modelContainer(sharedModelContainer)
+        }.modelContainer(sharedModelContainer)
     }
 }
 
@@ -88,7 +86,7 @@ private struct NavigationContent: View {
     var body: some View {
         switch tab {
         case .browse, .favorite:
-            PhotosView(tab: tab).navigationTitle(tab.name)
+            PhotosView(tab: tab).navigationTitle(tab.name).id(tab)
         case .settings:
             SettingsView()
         }
