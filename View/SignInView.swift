@@ -15,6 +15,9 @@ struct SignInView: View {
     @Binding var isPresented: Bool
     
     @State private var serverConfig: ServerConfig?
+    @State private var isRetrievingServerConfig = false
+    @State private var retrievingServerConfigError: Error?
+    
     @State private var username = ""
     @State private var password = ""
     @State private var signInError: String?
@@ -24,8 +27,10 @@ struct SignInView: View {
         NavigationStack {
             Form {
                 server
-                if serverConfig != nil {
-                    credentials
+                if let serverConfig {
+                    if serverConfig.authMode == .password {
+                        credentials
+                    }
                     signIn
                 }
             }
@@ -48,15 +53,27 @@ struct SignInView: View {
         } footer: {
             if serverURL.isEmpty {
                 Text("Enter the URL of your PhotoPrism instance.")
+            } else if isRetrievingServerConfig {
+                HStack {
+                    ProgressView()
+                    Text("Connecting to server...")
+                }
+            } else if let retrievingServerConfigError {
+                Label(
+                    retrievingServerConfigError.localizedDescription,
+                    systemImage: "exclamationmark.triangle.fill"
+                ).symbolRenderingMode(.multicolor)
             } else if serverConfig == nil {
                 Label(
                     "Unable to connect to the server or the URL is invalid.",
                     systemImage: "exclamationmark.triangle.fill"
                 ).symbolRenderingMode(.multicolor)
             } else {
-                Label("Server URL is valid", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                Label("Connected to server", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
             }
         }.task(id: serverURL) {
+            defer { isRetrievingServerConfig = false }
+            isRetrievingServerConfig = true
             guard var url = URL(string: serverURL) else { return }
             url.append(path: "api/v1/config")
             do {
@@ -65,6 +82,7 @@ struct SignInView: View {
                 serverConfig = try decoder.decode(ServerConfig.self, from: data)
             } catch {
                 serverConfig = nil
+                retrievingServerConfigError = error
             }
         }
     }

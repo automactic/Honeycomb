@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum AuthMode: String, Codable {
+    case publicAccess = "public", password
+}
+
 enum ImageURLSuffix: String, Codable {
     case tile50 = "tile_50"
     case tile100 = "tile_100"

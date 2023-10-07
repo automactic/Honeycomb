@@ -39,6 +39,7 @@ struct Photo: Codable, Hashable, Identifiable {
 }
 
 struct ServerConfig: Codable {
+    let authMode: AuthMode
     let name: String
     let siteAuthor: String
 }
