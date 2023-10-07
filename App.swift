@@ -33,6 +33,7 @@ private struct RootView: View {
     @AppStorage(StorageKeys.sessionID) private var sessionID: String?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @SceneStorage(StorageKeys.selectedLibraryItem) private var selectedLibraryItem: LibraryItem = .browse
+    @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
     @State private var isSignInPresented = false
     
     var body: some View {
@@ -40,22 +41,22 @@ private struct RootView: View {
             if sessionID == nil {
                 EmptyView()
             } else if horizontalSizeClass == .regular {
-                NavigationSplitView {
+                NavigationSplitView(columnVisibility: $columnVisibility) {
                     List(LibraryItem.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
-                        Label(libraryItem.name, systemImage: libraryItem.imageName)
+                        Label(libraryItem.name, systemImage: libraryItem.icon)
                     }
                 } detail: {
                     NavigationStack {
                         NavigationContent(libraryItem: selectedLibraryItem)
                     }
-                }
+                }.navigationSplitViewStyle(.prominentDetail)
             } else {
                 TabView(selection: $selectedLibraryItem) {
                     ForEach(LibraryItem.allCases) { libraryItem in
                         NavigationStack {
                             NavigationContent(libraryItem: libraryItem)
                         }
-                        .tabItem { Label(libraryItem.name, systemImage: libraryItem.imageName) }
+                        .tabItem { Label(libraryItem.name, systemImage: libraryItem.icon) }
                         .tag(libraryItem)
                     }
                 }
@@ -87,7 +88,7 @@ private struct NavigationContent: View {
     var body: some View {
         switch libraryItem {
         case .browse:
-            Text("browse")
+            PhotosView(content: .all).navigationTitle(libraryItem.name)
         case .settings:
             SettingsView()
         }

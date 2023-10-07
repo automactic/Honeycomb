@@ -15,7 +15,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section {
-                Attribute(title: "Server", detail: serverURL)
+                AttributeRow(title: "Server", detail: serverURL)
             }
             Section {
                 Button("Sign Out", role: .destructive) {

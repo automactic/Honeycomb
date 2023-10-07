@@ -11,6 +11,33 @@ struct APIError: Codable {
     let error: String
 }
 
+struct File: Codable, Hashable, Identifiable {
+    let uid: String
+    let root: String
+    let hash: String
+    let size: Int64
+    let primary: Bool
+    let codec: String?
+    let mediaType: String
+    let duration: Int64?
+    let width: Int?
+    let height: Int?
+    
+    var id: String { uid }
+}
+
+struct Photo: Codable, Hashable, Identifiable {
+    let uid: String
+    let type: PhotoType?
+    let hash: String
+    let title: String
+    let description: String
+    let takenAt: Date
+    var files: [File]
+    
+    var id: String { uid }
+}
+
 struct ServerConfig: Codable {
     let name: String
     let siteAuthor: String

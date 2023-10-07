@@ -40,8 +40,8 @@ struct SignInView: View {
             TextField("http://example.com:2342", text: $serverURL)
                 .textContentType(.URL)
             if let serverConfig {
-                Attribute(title: "Name", detail: serverConfig.name)
-                Attribute(title: "Site Author", detail: serverConfig.siteAuthor)
+                AttributeRow(title: "Name", detail: serverConfig.name)
+                AttributeRow(title: "Site Author", detail: serverConfig.siteAuthor)
             }
         } header: {
             Text("Server")
