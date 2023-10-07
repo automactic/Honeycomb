@@ -78,5 +78,5 @@ enum PhotosDisplayMode: String, CaseIterable, Identifiable {
 }
 
 enum PhotoType: String, Codable {
-    case image, video, live
+    case image, video, live, vector, animated, raw
 }

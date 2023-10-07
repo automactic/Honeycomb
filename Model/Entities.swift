@@ -20,8 +20,8 @@ struct File: Codable, Hashable, Identifiable {
     let codec: String?
     let mediaType: String
     let duration: Int64?
-    let width: Int
-    let height: Int
+    let width: Int?
+    let height: Int?
     
     var id: String { uid }
 }
