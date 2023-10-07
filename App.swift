@@ -32,7 +32,7 @@ struct Honeycomb: App {
 private struct RootView: View {
     @AppStorage(StorageKeys.sessionID) private var sessionID: String?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @SceneStorage(StorageKeys.selectedLibraryItem) private var selectedLibraryItem: LibraryItem = .browse
+    @SceneStorage(StorageKeys.selectedTab) private var selectedTab: Tab = .browse
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
     @State private var isSignInPresented = false
     
@@ -42,22 +42,22 @@ private struct RootView: View {
                 EmptyView()
             } else if horizontalSizeClass == .regular {
                 NavigationSplitView(columnVisibility: $columnVisibility) {
-                    List(LibraryItem.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
+                    List(Tab.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
                         Label(libraryItem.name, systemImage: libraryItem.icon)
                     }
                 } detail: {
                     NavigationStack {
-                        NavigationContent(libraryItem: selectedLibraryItem)
+                        NavigationContent(tab: selectedTab)
                     }
                 }.navigationSplitViewStyle(.prominentDetail)
             } else {
-                TabView(selection: $selectedLibraryItem) {
-                    ForEach(LibraryItem.allCases) { libraryItem in
+                TabView(selection: $selectedTab) {
+                    ForEach(Tab.allCases) { tab in
                         NavigationStack {
-                            NavigationContent(libraryItem: libraryItem)
+                            NavigationContent(tab: tab)
                         }
-                        .tabItem { Label(libraryItem.name, systemImage: libraryItem.icon) }
-                        .tag(libraryItem)
+                        .tabItem { Label(tab.name, systemImage: tab.icon) }
+                        .tag(tab)
                     }
                 }
             }
@@ -73,22 +73,24 @@ private struct RootView: View {
         }
     }
     
-    private var selectedSidebarItem: Binding<LibraryItem?> {
+    private var selectedSidebarItem: Binding<Tab?> {
         Binding {
-            selectedLibraryItem
+            selectedTab
         } set: { newValue in
-            selectedLibraryItem = newValue ?? .browse
+            selectedTab = newValue ?? .browse
         }
     }
 }
 
 private struct NavigationContent: View {
-    let libraryItem: LibraryItem
+    let tab: Tab
     
     var body: some View {
-        switch libraryItem {
+        switch tab {
         case .browse:
-            PhotosView(content: .all).navigationTitle(libraryItem.name)
+            PhotosView(content: .all).navigationTitle(tab.name)
+        case .favorite:
+            EmptyView()
         case .settings:
             SettingsView()
         }

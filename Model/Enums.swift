@@ -21,8 +21,9 @@ enum ImageURLSuffix: String, Codable {
     case fit2048 = "fit_2048"
 }
 
-enum LibraryItem: String, CaseIterable, Identifiable {
+enum Tab: String, CaseIterable, Identifiable {
     case browse
+    case favorite
     case settings
     
     var id: String {
@@ -33,6 +34,8 @@ enum LibraryItem: String, CaseIterable, Identifiable {
         switch self {
         case .browse:
             "Browse"
+        case .favorite:
+            "Favorite"
         case .settings:
             "Settings"
         }
@@ -42,6 +45,8 @@ enum LibraryItem: String, CaseIterable, Identifiable {
         switch self {
         case .browse:
             "photo.on.rectangle.angled"
+        case .favorite:
+            "heart"
         case .settings:
             "gear"
         }
