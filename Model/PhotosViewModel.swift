@@ -9,15 +9,14 @@ import Foundation
 
 @Observable
 class PhotosViewModel: DataSource {
-    let content: PhotosContent
     var searchText = ""
-    
     private(set) var allPagesLoaded = false
     private(set) var isLoading = false
     private(set) var photos = [Photo]()
     
-    private let count = 120
-    private var offset: Int = 0
+    @ObservationIgnored private let content: PhotosContent
+    @ObservationIgnored private let count = 120
+    @ObservationIgnored private var offset: Int = 0
     
     init(content: PhotosContent) {
         self.content = content
@@ -28,7 +27,6 @@ class PhotosViewModel: DataSource {
         defer { isLoading = false }
         isLoading = true
         
-        try await Task.sleep(nanoseconds: UInt64(1 * Double(NSEC_PER_SEC)))
         var queryItems = [
             URLQueryItem(name: "count", value: "\(count)"),
             URLQueryItem(name: "offset", value: "\(offset)"),
