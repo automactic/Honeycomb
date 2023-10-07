@@ -9,8 +9,6 @@ import SwiftUI
 
 struct PhotosView: View {
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @State private var taskID: UUID?
     @State private var viewModel: PhotosViewModel
     
     init(content: PhotosContent) {
@@ -25,7 +23,7 @@ struct PhotosView: View {
                 PhotosGridView()
             }
         }
-        .animation(.default, value: displayMode)
+        
         .autocorrectionDisabled()
         .environment(viewModel)
         .navigationDestination(for: Photo.self) { GalleryView(photo: $0).environment(viewModel) }
@@ -52,6 +50,7 @@ struct PhotosGridView: View {
     @Environment(\.isSearching) private var isSearching
     @Environment(PhotosViewModel.self) private var viewModel
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
+    @State private var taskID: UUID?
     
     var body: some View {
         ScrollView {
@@ -67,8 +66,9 @@ struct PhotosGridView: View {
                 }
             }
         }
+        .animation(.default, value: displayMode)
         .refreshable {
-            await viewModel.reload()
+            Task { await viewModel.reload() }
         }
         .task(id: viewModel.searchText) {
             guard isSearching || viewModel.photos.isEmpty else { return }
