@@ -16,19 +16,19 @@ struct SignInView: View {
     
     @State private var serverConfig: ServerConfig?
     @State private var isRetrievingServerConfig = false
-    @State private var retrievingServerConfigError: Error?
+    @State private var retrieveServerConfigError: Error?
     
     @State private var username = ""
     @State private var password = ""
-    @State private var signInError: String?
     @State private var isSigningIn = false
+    @State private var signInError: String?
 
     var body: some View {
         NavigationStack {
             Form {
                 server
                 if let serverConfig {
-                    if serverConfig.authMode == .password {
+                    if serverConfig.authMode == .passwordAccess {
                         credentials
                     }
                     signIn
@@ -58,9 +58,9 @@ struct SignInView: View {
                     ProgressView()
                     Text("Connecting to server...")
                 }
-            } else if let retrievingServerConfigError {
+            } else if let retrieveServerConfigError {
                 Label(
-                    retrievingServerConfigError.localizedDescription,
+                    retrieveServerConfigError.localizedDescription,
                     systemImage: "exclamationmark.triangle.fill"
                 ).symbolRenderingMode(.multicolor)
             } else if serverConfig == nil {
@@ -82,7 +82,7 @@ struct SignInView: View {
                 serverConfig = try decoder.decode(ServerConfig.self, from: data)
             } catch {
                 serverConfig = nil
-                retrievingServerConfigError = error
+                retrieveServerConfigError = error
             }
         }
     }
@@ -127,7 +127,17 @@ struct SignInView: View {
                 }.buttonStyle(.borderedProminent)
                 Spacer()
             }.listRowBackground(Color.clear)
-        }.disabled(username.isEmpty || password.isEmpty || isSigningIn || signInError != nil)
+        }.disabled(isSignInDisabled)
+    }
+    
+    private var isSignInDisabled: Bool {
+        guard !serverURL.isEmpty, let serverConfig else { return true }  // disabled if server is not configured
+        switch serverConfig.authMode {
+        case .publicAccess:
+            return false
+        case .passwordAccess:
+            return username.isEmpty || password.isEmpty || isSigningIn || signInError != nil
+        }
     }
     
     private func signIn() async {
@@ -139,7 +149,12 @@ struct SignInView: View {
         do {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
-            request.httpBody = try JSONSerialization.data(withJSONObject: ["username": username, "password": password])
+            if serverConfig?.authMode == .passwordAccess {
+                let payload = ["username": username, "password": password]
+                request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+            } else {
+                request.httpBody = try JSONSerialization.data(withJSONObject: [:])
+            }
             let (data, response) = try await URLSession.shared.data(for: request)
             if let response = response as? HTTPURLResponse, response.statusCode == 401 {
                 let responseData = try JSONDecoder().decode(APIError.self, from: data)

@@ -8,7 +8,8 @@
 import Foundation
 
 enum AuthMode: String, Codable {
-    case publicAccess = "public", password
+    case publicAccess = "public"
+    case passwordAccess = "password"
 }
 
 enum ImageURLSuffix: String, Codable {
