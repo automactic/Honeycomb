@@ -59,7 +59,7 @@ struct PhotosGridView: View {
                 ForEach(viewModel.photos) { photo in
                     GeometryReader { geometry in
                         NavigationLink(value: photo) {
-                            LazyImage(
+                            ThumbnailView(
                                 url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500), size: geometry.size
                             )
                         }
@@ -102,7 +102,7 @@ struct PhotosGridView: View {
     }
 }
 
-struct LazyImage: View {
+struct ThumbnailView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var image: UIImage?
     @State private var failed = false
