@@ -71,9 +71,8 @@ struct PhotosGridView: View {
                         await viewModel.loadNext()
                     }
                 }
-            }.scrollTargetLayout()
+            }
         }
-        .scrollPosition(id: $scrollPosition, anchor: .center)
         .refreshable {
             Task { await viewModel.reload() }
         }
