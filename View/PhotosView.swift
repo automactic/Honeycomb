@@ -51,6 +51,7 @@ struct PhotosGridView: View {
     @Environment(\.isSearching) private var isSearching
     @Environment(PhotosViewModel.self) private var viewModel
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
+    @State private var scrollPosition: String?
     @State private var taskID: UUID?
     
     var body: some View {
@@ -70,9 +71,9 @@ struct PhotosGridView: View {
                         await viewModel.loadNext()
                     }
                 }
-            }
+            }.scrollTargetLayout()
         }
-        .animation(.default, value: displayMode)
+        .scrollPosition(id: $scrollPosition, anchor: .center)
         .refreshable {
             Task { await viewModel.reload() }
         }
