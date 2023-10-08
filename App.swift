@@ -11,11 +11,10 @@ import SwiftData
 @main
 struct Honeycomb: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([Item.self])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        let schema = Schema([CachedImage.self])
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
@@ -24,16 +23,14 @@ struct Honeycomb: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-        }
-        .modelContainer(sharedModelContainer)
+        }.modelContainer(sharedModelContainer)
     }
 }
 
 private struct RootView: View {
     @AppStorage(StorageKeys.sessionID) private var sessionID: String?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @SceneStorage(StorageKeys.selectedLibraryItem) private var selectedLibraryItem: LibraryItem = .browse
-    @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
+    @SceneStorage(StorageKeys.selectedTab) private var selectedTab: Tab = .browse
     @State private var isSignInPresented = false
     
     var body: some View {
@@ -41,23 +38,23 @@ private struct RootView: View {
             if sessionID == nil {
                 EmptyView()
             } else if horizontalSizeClass == .regular {
-                NavigationSplitView(columnVisibility: $columnVisibility) {
-                    List(LibraryItem.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
+                NavigationSplitView {
+                    List(Tab.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
                         Label(libraryItem.name, systemImage: libraryItem.icon)
                     }
                 } detail: {
                     NavigationStack {
-                        NavigationContent(libraryItem: selectedLibraryItem)
+                        NavigationContent(tab: selectedTab)
                     }
-                }.navigationSplitViewStyle(.prominentDetail)
+                }
             } else {
-                TabView(selection: $selectedLibraryItem) {
-                    ForEach(LibraryItem.allCases) { libraryItem in
+                TabView(selection: $selectedTab) {
+                    ForEach(Tab.allCases) { tab in
                         NavigationStack {
-                            NavigationContent(libraryItem: libraryItem)
+                            NavigationContent(tab: tab)
                         }
-                        .tabItem { Label(libraryItem.name, systemImage: libraryItem.icon) }
-                        .tag(libraryItem)
+                        .tabItem { Label(tab.name, systemImage: tab.icon) }
+                        .tag(tab)
                     }
                 }
             }
@@ -73,22 +70,22 @@ private struct RootView: View {
         }
     }
     
-    private var selectedSidebarItem: Binding<LibraryItem?> {
+    private var selectedSidebarItem: Binding<Tab?> {
         Binding {
-            selectedLibraryItem
+            selectedTab
         } set: { newValue in
-            selectedLibraryItem = newValue ?? .browse
+            selectedTab = newValue ?? .browse
         }
     }
 }
 
 private struct NavigationContent: View {
-    let libraryItem: LibraryItem
+    let tab: Tab
     
     var body: some View {
-        switch libraryItem {
-        case .browse:
-            PhotosView(content: .all).navigationTitle(libraryItem.name)
+        switch tab {
+        case .browse, .favorite:
+            PhotosView(tab: tab).navigationTitle(tab.name).id(tab)
         case .settings:
             SettingsView()
         }

@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PhotosView: View {
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
     @State private var viewModel: PhotosViewModel
     
-    init(content: PhotosContent) {
-        _viewModel = State(initialValue: PhotosViewModel(content: content))
+    init(tab: Tab) {
+        _viewModel = State(initialValue: PhotosViewModel(tab: tab))
     }
     
     var body: some View {
@@ -50,16 +51,21 @@ struct PhotosGridView: View {
     @Environment(\.isSearching) private var isSearching
     @Environment(PhotosViewModel.self) private var viewModel
     @SceneStorage(StorageKeys.photosDisplayMode) private var displayMode: PhotosDisplayMode = .mediumGrid
+    @State private var scrollPosition: String?
     @State private var taskID: UUID?
     
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 2) {
                 ForEach(viewModel.photos) { photo in
-                    NavigationLink(value: photo) {
-                        LazyImage(url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500))
-                            .aspectRatio(1, contentMode: .fill)
+                    GeometryReader { geometry in
+                        NavigationLink(value: photo) {
+                            ThumbnailView(
+                                url: DataSource.makeImageURL(hash: photo.hash, suffix: .tile500), size: geometry.size
+                            )
+                        }
                     }
+                    .aspectRatio(1, contentMode: .fill)
                     .task(priority: .low) {
                         guard photo.id == viewModel.photos.last?.id else { return }
                         await viewModel.loadNext()
@@ -67,7 +73,6 @@ struct PhotosGridView: View {
                 }
             }
         }
-        .animation(.default, value: displayMode)
         .refreshable {
             Task { await viewModel.reload() }
         }
@@ -97,15 +102,17 @@ struct PhotosGridView: View {
     }
 }
 
-struct LazyImage: View {
-    @State private var data: Data?
+struct ThumbnailView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var image: UIImage?
     @State private var failed = false
     
     let url: URL?
+    let size: CGSize
     
     var body: some View {
         Group {
-            if let data, let image = UIImage(data: data) {
+            if let image {
                 Image(uiImage: image).resizable().scaledToFit()
             } else if failed {
                 Color(uiColor: .secondarySystemGroupedBackground).overlay {
@@ -116,10 +123,23 @@ struct LazyImage: View {
                     ProgressView()
                 }
             }
-        }.task {
-            guard let url = url, data == nil else { return }
+        }
+        .task(id: size, priority: .medium) {
+            guard let url = url else { return }
             do {
-                data = try await URLSession.shared.data(from: url).0
+                let fetchDescriptor = FetchDescriptor<CachedImage>(predicate: #Predicate { cachedImage in
+                    cachedImage.url == url.absoluteString
+                })
+                let transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                if let cachedImage = try? modelContext.fetch(fetchDescriptor).first {
+                    cachedImage.lastUsed = Date()
+                    image = await UIImage(data: cachedImage.data)?
+                        .byPreparingThumbnail(ofSize: size.applying(transform))
+                } else {
+                    let data = try await URLSession.shared.data(from: url).0
+                    modelContext.insert(CachedImage(url: url.absoluteString, data: data, lastUsed: Date()))
+                    image = await UIImage(data: data)?.byPreparingThumbnail(ofSize: size.applying(transform))
+                }
             } catch {
                 failed = true
             }
@@ -130,7 +150,7 @@ struct LazyImage: View {
 #Preview {
     TabView {
         NavigationStack {
-            PhotosView(content: .all)
+            PhotosView(tab: .browse)
         }
     }
 }

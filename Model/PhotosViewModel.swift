@@ -14,12 +14,12 @@ class PhotosViewModel: DataSource {
     private(set) var isLoading = false
     private(set) var photos = [Photo]()
     
-    @ObservationIgnored private let content: PhotosContent
+    @ObservationIgnored private let tab: Tab
     @ObservationIgnored private let count = 120
     @ObservationIgnored private var offset: Int = 0
     
-    init(content: PhotosContent) {
-        self.content = content
+    init(tab: Tab) {
+        self.tab = tab
         super.init()
     }
     
@@ -35,6 +35,9 @@ class PhotosViewModel: DataSource {
         ]
         if !searchText.isEmpty {
             queryItems.append(URLQueryItem(name: "q", value: searchText))
+        }
+        if tab == .favorite {
+            queryItems.append(URLQueryItem(name: "favorite", value: "true"))
         }
         
         return try await super.get(path: "photos", queryItems: queryItems)

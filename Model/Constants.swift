@@ -8,9 +8,10 @@
 import Foundation
 
 struct StorageKeys {
-    static let photosDisplayMode = "PhotosDisplayMode"
     static let previewToken = "PreviewToken"
-    static let selectedLibraryItem = "SelectedLibraryItem"
     static let serverURL = "ServerURL"
     static let sessionID = "SessionID"
+    
+    static let selectedTab = "SelectedTab"
+    static let photosDisplayMode = "PhotosDisplayMode"
 }

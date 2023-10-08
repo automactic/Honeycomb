@@ -29,7 +29,8 @@ struct LoadingView: View {
         .font(.subheadline)
         .foregroundStyle(.secondary)
         .padding()
-        .background { Color(uiColor: .secondarySystemBackground) }
+        .background(Material.bar)
         .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+        .shadow(radius: 0.5)
     }
 }

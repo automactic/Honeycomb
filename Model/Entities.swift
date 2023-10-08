@@ -6,9 +6,25 @@
 //
 
 import Foundation
+import SwiftData
 
 struct APIError: Codable {
     let error: String
+}
+
+@Model
+class CachedImage {
+    @Attribute(.unique) let url: String
+    let data: Data
+    let size: Int
+    var lastUsed: Date
+    
+    init(url: String, data: Data, lastUsed: Date) {
+        self.url = url
+        self.data = data
+        self.size = data.count
+        self.lastUsed = lastUsed
+    }
 }
 
 struct File: Codable, Hashable, Identifiable {
@@ -39,6 +55,7 @@ struct Photo: Codable, Hashable, Identifiable {
 }
 
 struct ServerConfig: Codable {
+    let authMode: AuthMode
     let name: String
     let siteAuthor: String
 }
