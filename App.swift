@@ -31,7 +31,6 @@ private struct RootView: View {
     @AppStorage(StorageKeys.sessionID) private var sessionID: String?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @SceneStorage(StorageKeys.selectedTab) private var selectedTab: Tab = .browse
-    @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
     @State private var isSignInPresented = false
     
     var body: some View {
@@ -39,7 +38,7 @@ private struct RootView: View {
             if sessionID == nil {
                 EmptyView()
             } else if horizontalSizeClass == .regular {
-                NavigationSplitView(columnVisibility: $columnVisibility) {
+                NavigationSplitView {
                     List(Tab.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
                         Label(libraryItem.name, systemImage: libraryItem.icon)
                     }
@@ -47,7 +46,7 @@ private struct RootView: View {
                     NavigationStack {
                         NavigationContent(tab: selectedTab)
                     }
-                }.navigationSplitViewStyle(.prominentDetail)
+                }
             } else {
                 TabView(selection: $selectedTab) {
                     ForEach(Tab.allCases) { tab in

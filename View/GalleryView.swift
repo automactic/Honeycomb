@@ -126,10 +126,28 @@ struct ImageViewer: UIViewControllerRepresentable {
     }
 }
 
+class TestViewController: UIViewController {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        print("viewWillTransition", size)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemMint
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        print("viewWillLayoutSubviews")
+    }
+}
+
 class ImageViewerController: UIViewController, UIScrollViewDelegate {
     let photo: Photo
     let scrollView = UIScrollView()
     let imageView = UIImageView()
+    var previousFrameSize: CGSize?
     
     lazy var topConstraint = imageView.topAnchor.constraint(equalTo: scrollView.topAnchor)
     lazy var bottomConstraint = scrollView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
@@ -170,11 +188,14 @@ class ImageViewerController: UIViewController, UIScrollViewDelegate {
         }.resume()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        guard let image = imageView.image else { return }
-        updateMinZoomScale(size: size, imageSize: image.size)
-        updateConstraints(size: size)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // I'd like to use viewWillTransition(to: , with:) for this, but it is not called
+        guard previousFrameSize != scrollView.frame.size, let image = imageView.image else { return }
+        updateMinZoomScale(size: scrollView.frame.size, imageSize: image.size)
+        updateConstraints(size: scrollView.frame.size)
+        previousFrameSize = scrollView.frame.size
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
