@@ -24,6 +24,7 @@ enum ImageURLSuffix: String, Codable {
 enum Tab: String, CaseIterable, Identifiable {
     case browse
     case favorite
+    case folders
     case settings
     
     var id: String {
@@ -36,6 +37,8 @@ enum Tab: String, CaseIterable, Identifiable {
             "Browse"
         case .favorite:
             "Favorite"
+        case .folders:
+            "Folders"
         case .settings:
             "Settings"
         }
@@ -47,6 +50,8 @@ enum Tab: String, CaseIterable, Identifiable {
             "photo.on.rectangle.angled"
         case .favorite:
             "heart"
+        case .folders:
+            "folder"
         case .settings:
             "gear"
         }
