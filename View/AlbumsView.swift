@@ -5,6 +5,7 @@
 //  Created by Chris Li on 10/8/23.
 //
 
+import SwiftData
 import SwiftUI
 
 struct AlbumsView: View {
@@ -27,9 +28,9 @@ struct AlbumsView: View {
             }
         }
         .autocorrectionDisabled()
-        .background(Color(uiColor: .systemGroupedBackground))
+//        .background(Color(uiColor: .systemGroupedBackground))
         .environment(viewModel)
-        .navigationDestination(for: Album.self) { Text($0.title) }
+        .navigationDestination(for: Album.self) { PhotosView(tab: Tab.album(id: $0.id)) }
         .navigationTitle(tab.name)
         .searchable(text: $viewModel.searchText)
         .textInputAutocapitalization(.never)
@@ -86,6 +87,8 @@ struct AlbumGridView: View {
 }
 
 struct AlbumView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    
     let album: Album
     
     var body: some View {
@@ -97,15 +100,31 @@ struct AlbumView: View {
                     ProgressView()
                 }
             }.aspectRatio(1, contentMode: .fill)
-            Text(album.title).font(.caption).lineLimit(1).padding(4)
+            HStack(spacing: 0) {
+                if horizontalSizeClass == .regular {
+                    VStack(alignment: .leading) {
+                        Text(album.title).fontWeight(.medium)
+                        Text(album.path)
+                    }
+                    Spacer()
+                } else {
+                    Text(album.title).fontWeight(.medium)
+                }
+            }.font(.caption).lineLimit(1).padding(8)
         }
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
+        .background(Color(uiColor: .secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
 }
 
 #Preview {
-    NavigationStack {
-        AlbumsView(tab: .folders)
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    do {
+        let container = try ModelContainer(for: CachedImage.self, configurations: config)
+        return NavigationStack {
+            AlbumsView(tab: .folders)
+        }.modelContainer(container)
+    } catch {
+        fatalError("Could not create ModelContainer: \(error)")
     }
 }

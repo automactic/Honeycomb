@@ -90,6 +90,8 @@ private struct NavigationContent: View {
             AlbumsView(tab: tab).id(tab)
         case .settings:
             SettingsView()
+        default:
+            EmptyView()
         }
     }
 }

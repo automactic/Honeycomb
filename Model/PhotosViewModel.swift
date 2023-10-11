@@ -39,6 +39,9 @@ class PhotosViewModel: DataSource {
         if tab == .favorite {
             queryItems.append(URLQueryItem(name: "favorite", value: "true"))
         }
+        if case .album(let albumID) = tab {
+            queryItems.append(URLQueryItem(name: "s", value: albumID))
+        }
         
         return try await super.get(path: "photos", queryItems: queryItems)
     }
