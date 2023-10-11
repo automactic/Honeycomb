@@ -9,7 +9,6 @@ import SwiftData
 import SwiftUI
 
 struct AlbumsView: View {
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var viewModel: AlbumsViewModel
     
     let tab: Tab
@@ -28,7 +27,6 @@ struct AlbumsView: View {
             }
         }
         .autocorrectionDisabled()
-//        .background(Color(uiColor: .systemGroupedBackground))
         .environment(viewModel)
         .navigationDestination(for: Album.self) { PhotosView(tab: Tab.album(id: $0.id)) }
         .navigationTitle(tab.name)
@@ -62,8 +60,13 @@ struct AlbumGridView: View {
                 LazyVGrid(columns: columns, spacing: spacing) {
                     ForEach(viewModel.albums) { album in
                         NavigationLink(value: album) {
-                            AlbumView(album: album)
-                        }.buttonStyle(.plain)
+                            AlbumCell(album: album)
+                        }
+                        .buttonStyle(.plain)
+                        .task(priority: .low) {
+                            guard album.id == viewModel.albums.last?.id else { return }
+                            await viewModel.loadNext()
+                        }
                     }
                 }
             }.contentMargins(.horizontal, geometry.size.width > 400 ? 20 : 16, for: .scrollContent)
@@ -86,7 +89,7 @@ struct AlbumGridView: View {
     }
 }
 
-struct AlbumView: View {
+struct AlbumCell: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     let album: Album
