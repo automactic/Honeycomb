@@ -93,12 +93,8 @@ struct AlbumView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            AsyncImage(url: DataSource.makeImageURL(hash: album.thumb, suffix: .tile224)) { image in
-                image.resizable().aspectRatio(1, contentMode: .fill)
-            } placeholder: {
-                Color.clear.overlay {
-                    ProgressView()
-                }
+            GeometryReader { geometry in
+                ThumbnailView(hash: album.thumb, suffix: .tile224, size: geometry.size)
             }.aspectRatio(1, contentMode: .fill)
             HStack(spacing: 0) {
                 if horizontalSizeClass == .regular {
