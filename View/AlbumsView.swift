@@ -38,17 +38,17 @@ struct AlbumsView: View {
                 LoadingView().padding()
             }
         }
+        .onChange(of: viewModel.searchText) {
+            Task {
+                await viewModel.reload()
+            }
+        }
         .refreshable {
             Task { await viewModel.reload() }
         }
         .task {
             guard viewModel.albums.isEmpty else { return }
             await viewModel.reload()
-        }
-        .onChange(of: viewModel.searchText) {
-            Task {
-                await viewModel.reload()
-            }
         }
     }
 }
