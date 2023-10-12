@@ -28,7 +28,7 @@ struct AlbumsView: View {
         }
         .autocorrectionDisabled()
         .environment(viewModel)
-        .navigationDestination(for: Album.self) { PhotosView(tab: Tab.album(id: $0.id)) }
+        .navigationDestination(for: Album.self) { PhotosView(tab: Tab.album(id: $0.id)).navigationTitle($0.title) }
         .navigationTitle(tab.name)
         .searchable(text: $viewModel.searchText)
         .textInputAutocapitalization(.never)
@@ -37,6 +37,9 @@ struct AlbumsView: View {
             if viewModel.isLoading {
                 LoadingView().padding()
             }
+        }
+        .refreshable {
+            Task { await viewModel.reload() }
         }
         .task {
             guard viewModel.albums.isEmpty else { return }
@@ -50,7 +53,7 @@ struct AlbumsView: View {
     }
 }
 
-struct AlbumGridView: View {
+private struct AlbumGridView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(AlbumsViewModel.self) private var viewModel
     
@@ -89,7 +92,7 @@ struct AlbumGridView: View {
     }
 }
 
-struct AlbumCell: View {
+private struct AlbumCell: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     let album: Album
