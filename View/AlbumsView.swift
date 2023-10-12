@@ -23,7 +23,7 @@ struct AlbumsView: View {
             if viewModel.albums.isEmpty, viewModel.allPagesLoaded {
                 ContentUnavailableView("No Folders", systemImage: tab.icon)
             } else {
-                AlbumGridView()
+                AlbumGridView(tab: tab)
             }
         }
         .autocorrectionDisabled()
@@ -57,13 +57,15 @@ private struct AlbumGridView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(AlbumsViewModel.self) private var viewModel
     
+    let tab: Tab
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 LazyVGrid(columns: columns, spacing: spacing) {
                     ForEach(viewModel.albums) { album in
                         NavigationLink(value: album) {
-                            AlbumCell(album: album)
+                            AlbumCell(album: album, tab: tab)
                         }
                         .buttonStyle(.plain)
                         .task(priority: .low) {
@@ -96,6 +98,7 @@ private struct AlbumCell: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     let album: Album
+    let tab: Tab
     
     var body: some View {
         VStack(spacing: 0) {
@@ -103,7 +106,7 @@ private struct AlbumCell: View {
                 ThumbnailView(hash: album.thumb, suffix: .tile224, size: geometry.size)
             }.aspectRatio(1, contentMode: .fill)
             HStack(spacing: 0) {
-                if horizontalSizeClass == .regular {
+                if case .folders = tab, horizontalSizeClass == .regular {
                     VStack(alignment: .leading) {
                         Text(album.title).fontWeight(.medium)
                         Text(album.path)
