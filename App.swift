@@ -85,9 +85,9 @@ private struct NavigationContent: View {
     var body: some View {
         switch tab {
         case .browse, .favorite:
-            PhotosView(tab: tab).navigationTitle(tab.name).id(tab)
+            PhotosView(tab: tab).navigationTitle(tab.name).toolbarRole(.browser).id(tab)
         case .calendar, .folders:
-            AlbumsView(tab: tab).id(tab)
+            AlbumsView(tab: tab).navigationTitle(tab.name).toolbarRole(.browser).id(tab)
         case .settings:
             SettingsView()
         default:

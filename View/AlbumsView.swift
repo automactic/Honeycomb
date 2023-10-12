@@ -28,11 +28,13 @@ struct AlbumsView: View {
         }
         .autocorrectionDisabled()
         .environment(viewModel)
-        .navigationDestination(for: Album.self) { PhotosView(tab: Tab.album(id: $0.id)).navigationTitle($0.title) }
-        .navigationTitle(tab.name)
         .searchable(text: $viewModel.searchText)
         .textInputAutocapitalization(.never)
-        .toolbarRole(.browser)
+        .navigationDestination(for: Album.self) { album in
+            PhotosView(tab: Tab.album(id: album.id))
+                .navigationTitle(album.title)
+                .navigationBarTitleDisplayMode(.inline)
+        }
         .overlay(alignment: .bottom) {
             if viewModel.isLoading {
                 LoadingView().padding()

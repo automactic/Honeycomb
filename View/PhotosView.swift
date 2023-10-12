@@ -30,7 +30,6 @@ struct PhotosView: View {
         .navigationDestination(for: Photo.self) { GalleryView(photo: $0).environment(viewModel) }
         .searchable(text: $viewModel.searchText)
         .textInputAutocapitalization(.never)
-        .toolbarRole(.browser)
         .overlay(alignment: .bottom) {
             if viewModel.isLoading {
                 LoadingView().padding()
