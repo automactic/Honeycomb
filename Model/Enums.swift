@@ -22,12 +22,13 @@ enum ImageURLSuffix: String, Codable {
 }
 
 enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
-    static var allCases: [Tab] = [.browse, .favorite, .calendar, .folders, .settings]
+    static var allCases: [Tab] = [.browse, .favorite, .calendar, .labels, .folders, .settings]
     
     case album(id: String)
     case browse
     case favorite
     case calendar
+    case labels
     case folders
     case settings
     
@@ -43,6 +44,8 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
             self = .favorite
         case "calendar":
             self = .calendar
+        case "labels":
+            self = .labels
         case "folders":
             self = .folders
         case "settings":
@@ -66,6 +69,8 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
             "favorite"
         case .calendar:
             "calendar"
+        case .labels:
+            "labels"
         case .folders:
             "folders"
         case .settings:
@@ -83,6 +88,8 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
             "Favorite"
         case .calendar:
             "Calendar"
+        case .labels:
+            "Labels"
         case .folders:
             "Folders"
         case .settings:
@@ -100,6 +107,8 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
             "heart"
         case .calendar:
             "calendar"
+        case .labels:
+            "tag"
         case .folders:
             "folder"
         case .settings:
