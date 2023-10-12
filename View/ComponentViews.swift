@@ -43,18 +43,24 @@ struct ThumbnailView: View {
     
     let url: URL?
     let size: CGSize
+    let photoType: PhotoType?
     
-    init(hash: String, suffix: ImageURLSuffix, size: CGSize) {
+    init(hash: String, suffix: ImageURLSuffix, size: CGSize, photoType: PhotoType? = nil) {
         self.url = DataSource.makeImageURL(hash: hash, suffix: .tile224)
         self.size = size
+        self.photoType = photoType
     }
     
     var body: some View {
         Group {
             if let image {
-                Image(uiImage: image).resizable().scaledToFit()
+                Image(uiImage: image).resizable().scaledToFit().overlay(alignment: .topLeading) {
+                    if let photoType, photoType == .video {
+                        Image(systemName: "play.fill").foregroundStyle(Material.thin).padding(4)
+                    }
+                }
             } else if failed {
-                Color(uiColor: .secondarySystemGroupedBackground).overlay {
+                Color.clear.overlay {
                     Image(systemName: "exclamationmark.triangle.fill").symbolRenderingMode(.multicolor)
                 }
             } else {
