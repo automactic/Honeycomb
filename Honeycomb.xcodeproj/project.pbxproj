@@ -20,6 +20,8 @@
 		97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FB62ACA1B2200FCF810 /* PhotosView.swift */; };
 		97E03FB92ACA1C6E00FCF810 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FB82ACA1C6E00FCF810 /* DataSource.swift */; };
 		97E03FBB2ACA1DB800FCF810 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */; };
+		97E8098F2AD2E4F300A27AF3 /* AlbumsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E8098E2AD2E4F300A27AF3 /* AlbumsView.swift */; };
+		97E809912AD38D9200A27AF3 /* AlbumsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		97E03FB62ACA1B2200FCF810 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		97E03FB82ACA1C6E00FCF810 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
+		97E8098E2AD2E4F300A27AF3 /* AlbumsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsView.swift; sourceTree = "<group>"; };
+		97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,7 @@
 				97E03FB82ACA1C6E00FCF810 /* DataSource.swift */,
 				970272FF2AC9C977006282AB /* Entities.swift */,
 				970273042AC9F6E1006282AB /* Enums.swift */,
+				97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */,
 				97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */,
 			);
 			path = Model;
@@ -74,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				970273022AC9CCCC006282AB /* ComponentViews.swift */,
+				97E8098E2AD2E4F300A27AF3 /* AlbumsView.swift */,
 				97360F632ACBAC4800C8F51C /* GalleryView.swift */,
 				97E03FB62ACA1B2200FCF810 /* PhotosView.swift */,
 				970272FD2AC9BEF5006282AB /* SignInView.swift */,
@@ -196,8 +202,10 @@
 			files = (
 				970273002AC9C977006282AB /* Entities.swift in Sources */,
 				970272F12AC9BABF006282AB /* App.swift in Sources */,
+				97E8098F2AD2E4F300A27AF3 /* AlbumsView.swift in Sources */,
 				970273092ACA0BE0006282AB /* SettingsView.swift in Sources */,
 				97360F642ACBAC4800C8F51C /* GalleryView.swift in Sources */,
+				97E809912AD38D9200A27AF3 /* AlbumsViewModel.swift in Sources */,
 				970272FA2AC9BCC5006282AB /* Constants.swift in Sources */,
 				970273032AC9CCCC006282AB /* ComponentViews.swift in Sources */,
 				97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */,
@@ -271,7 +279,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 			};
 			name = Debug;
 		};
@@ -327,7 +335,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

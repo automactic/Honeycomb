@@ -86,8 +86,12 @@ private struct NavigationContent: View {
         switch tab {
         case .browse, .favorite:
             PhotosView(tab: tab).navigationTitle(tab.name).id(tab)
+        case .folders:
+            AlbumsView(tab: tab).id(tab)
         case .settings:
             SettingsView()
+        default:
+            EmptyView()
         }
     }
 }

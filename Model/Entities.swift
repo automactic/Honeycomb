@@ -12,6 +12,17 @@ struct APIError: Codable {
     let error: String
 }
 
+struct Album: Codable, Hashable, Identifiable {
+    let uid: String
+    let thumb: String
+    let title: String
+    let location: String
+    let path: String
+    let createdAt: Date
+    
+    var id: String { uid }
+}
+
 @Model
 class CachedImage {
     @Attribute(.unique) let url: String

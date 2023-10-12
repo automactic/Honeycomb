@@ -21,21 +21,63 @@ enum ImageURLSuffix: String, Codable {
     case fit2048 = "fit_2048"
 }
 
-enum Tab: String, CaseIterable, Identifiable {
+enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
+    static var allCases: [Tab] = [.browse, .favorite, .folders, .settings]
+    
+    case album(id: String)
     case browse
     case favorite
+    case folders
     case settings
+    
+    init?(rawValue: String) {
+        let parts = rawValue.split(separator: ".")
+        switch parts.first {
+        case "album":
+            guard let id = parts.last else { return nil }
+            self = .album(id: String(id))
+        case "browse":
+            self = .browse
+        case "favorite":
+            self = .favorite
+        case "folders":
+            self = .folders
+        case "settings":
+            self = .settings
+        default:
+            return nil
+        }
+    }
     
     var id: String {
         rawValue
     }
     
+    var rawValue: String {
+       switch self {
+       case.album(let id):
+           "album.\(id)"
+       case .browse:
+           "browse"
+       case .favorite:
+           "favorite"
+       case .folders:
+           "folders"
+       case .settings:
+           "settings"
+       }
+   }
+    
     var name: String {
         switch self {
+        case .album:
+            "Album"
         case .browse:
             "Browse"
         case .favorite:
             "Favorite"
+        case .folders:
+            "Folders"
         case .settings:
             "Settings"
         }
@@ -43,10 +85,14 @@ enum Tab: String, CaseIterable, Identifiable {
     
     var icon: String {
         switch self {
+        case .album:
+            "album"
         case .browse:
             "photo.on.rectangle.angled"
         case .favorite:
             "heart"
+        case .folders:
+            "folder"
         case .settings:
             "gear"
         }
