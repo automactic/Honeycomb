@@ -28,12 +28,24 @@ class AlbumsViewModel: DataSource {
         
         var queryItems = [
             URLQueryItem(name: "count", value: "100"),
-            URLQueryItem(name: "offset", value: "\(offset)"),
-            URLQueryItem(name: "order", value: "name"),
-            URLQueryItem(name: "type", value: "folder")
+            URLQueryItem(name: "offset", value: "\(offset)")
         ]
         if !searchText.isEmpty {
             queryItems.append(URLQueryItem(name: "q", value: searchText))
+        }
+        switch tab {
+        case .calendar:
+            queryItems += [
+                URLQueryItem(name: "type", value: "month"),
+                URLQueryItem(name: "order", value: "newest")
+            ]
+        case .folders:
+            queryItems += [
+                URLQueryItem(name: "type", value: "folder"),
+                URLQueryItem(name: "order", value: "name")
+            ]
+        default:
+            break
         }
         
         return try await super.get(path: "albums", queryItems: queryItems)

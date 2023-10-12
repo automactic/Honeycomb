@@ -22,7 +22,7 @@ enum ImageURLSuffix: String, Codable {
 }
 
 enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
-    static var allCases: [Tab] = [.browse, .favorite, .calendar, .labels, .folders, .settings]
+    static var allCases: [Tab] = [.browse, .favorite, .calendar, .folders, .settings]
     
     case album(id: String)
     case browse
