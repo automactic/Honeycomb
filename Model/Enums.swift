@@ -22,11 +22,12 @@ enum ImageURLSuffix: String, Codable {
 }
 
 enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
-    static var allCases: [Tab] = [.browse, .favorite, .folders, .settings]
+    static var allCases: [Tab] = [.browse, .favorite, .calendar, .folders, .settings]
     
     case album(id: String)
     case browse
     case favorite
+    case calendar
     case folders
     case settings
     
@@ -40,6 +41,8 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
             self = .browse
         case "favorite":
             self = .favorite
+        case "calendar":
+            self = .calendar
         case "folders":
             self = .folders
         case "settings":
@@ -54,18 +57,20 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
     }
     
     var rawValue: String {
-       switch self {
-       case.album(let id):
-           "album.\(id)"
-       case .browse:
-           "browse"
-       case .favorite:
-           "favorite"
-       case .folders:
-           "folders"
-       case .settings:
-           "settings"
-       }
+        switch self {
+        case.album(let id):
+            "album.\(id)"
+        case .browse:
+            "browse"
+        case .favorite:
+            "favorite"
+        case .calendar:
+            "calendar"
+        case .folders:
+            "folders"
+        case .settings:
+            "settings"
+        }
    }
     
     var name: String {
@@ -76,6 +81,8 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
             "Browse"
         case .favorite:
             "Favorite"
+        case .calendar:
+            "Calendar"
         case .folders:
             "Folders"
         case .settings:
@@ -91,6 +98,8 @@ enum Tab: RawRepresentable, CaseIterable, Hashable, Identifiable {
             "photo.on.rectangle.angled"
         case .favorite:
             "heart"
+        case .calendar:
+            "calendar"
         case .folders:
             "folder"
         case .settings:
