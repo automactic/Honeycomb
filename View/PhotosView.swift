@@ -25,12 +25,10 @@ struct PhotosView: View {
             }
         }
         .autocorrectionDisabled()
-        .background(Color(uiColor: .systemGroupedBackground))
         .environment(viewModel)
         .navigationDestination(for: Photo.self) { GalleryView(photo: $0).environment(viewModel) }
         .searchable(text: $viewModel.searchText)
         .textInputAutocapitalization(.never)
-        .toolbarRole(.browser)
         .overlay(alignment: .bottom) {
             if viewModel.isLoading {
                 LoadingView().padding()
@@ -59,7 +57,12 @@ struct PhotosGridView: View {
                 ForEach(viewModel.photos) { photo in
                     GeometryReader { geometry in
                         NavigationLink(value: photo) {
-                            ThumbnailView(hash: photo.hash, suffix: .tile500, size: geometry.size)
+                            ThumbnailView(
+                                hash: photo.hash, 
+                                suffix: .tile500,
+                                size: geometry.size,
+                                photoType: photo.type
+                            )
                         }
                     }
                     .aspectRatio(1, contentMode: .fill)

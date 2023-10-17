@@ -23,16 +23,18 @@ struct AlbumsView: View {
             if viewModel.albums.isEmpty, viewModel.allPagesLoaded {
                 ContentUnavailableView("No Folders", systemImage: tab.icon)
             } else {
-                AlbumGridView()
+                AlbumGridView(tab: tab)
             }
         }
         .autocorrectionDisabled()
         .environment(viewModel)
-        .navigationDestination(for: Album.self) { PhotosView(tab: Tab.album(id: $0.id)).navigationTitle($0.title) }
-        .navigationTitle(tab.name)
         .searchable(text: $viewModel.searchText)
         .textInputAutocapitalization(.never)
-        .toolbarRole(.browser)
+        .navigationDestination(for: Album.self) { album in
+            PhotosView(tab: Tab.album(id: album.id))
+                .navigationTitle(album.title)
+                .navigationBarTitleDisplayMode(.inline)
+        }
         .overlay(alignment: .bottom) {
             if viewModel.isLoading {
                 LoadingView().padding()
@@ -57,13 +59,15 @@ private struct AlbumGridView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(AlbumsViewModel.self) private var viewModel
     
+    let tab: Tab
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 LazyVGrid(columns: columns, spacing: spacing) {
                     ForEach(viewModel.albums) { album in
                         NavigationLink(value: album) {
-                            AlbumCell(album: album)
+                            AlbumCell(album: album, tab: tab)
                         }
                         .buttonStyle(.plain)
                         .task(priority: .low) {
@@ -96,14 +100,19 @@ private struct AlbumCell: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     let album: Album
+    let tab: Tab
     
     var body: some View {
         VStack(spacing: 0) {
             GeometryReader { geometry in
-                ThumbnailView(hash: album.thumb, suffix: .tile224, size: geometry.size)
+                ThumbnailView(
+                    hash: album.thumb, 
+                    suffix: horizontalSizeClass == .regular ? .tile500 : .tile224,
+                    size: geometry.size
+                )
             }.aspectRatio(1, contentMode: .fill)
             HStack(spacing: 0) {
-                if horizontalSizeClass == .regular {
+                if case .folders = tab, horizontalSizeClass == .regular {
                     VStack(alignment: .leading) {
                         Text(album.title).fontWeight(.medium)
                         Text(album.path)
