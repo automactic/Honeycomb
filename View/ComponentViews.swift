@@ -75,7 +75,7 @@ struct ThumbnailView: View {
                 let fetchDescriptor = FetchDescriptor<CachedImage>(predicate: #Predicate { cachedImage in
                     cachedImage.url == url.absoluteString
                 })
-                let transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                let transform = CGAffineTransform(scaleX: 2, y: 2)
                 if let cachedImage = try? modelContext.fetch(fetchDescriptor).first {
                     cachedImage.lastUsed = Date()
                     image = await UIImage(data: cachedImage.data)?

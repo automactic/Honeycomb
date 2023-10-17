@@ -105,7 +105,11 @@ private struct AlbumCell: View {
     var body: some View {
         VStack(spacing: 0) {
             GeometryReader { geometry in
-                ThumbnailView(hash: album.thumb, suffix: .tile224, size: geometry.size)
+                ThumbnailView(
+                    hash: album.thumb, 
+                    suffix: horizontalSizeClass == .regular ? .tile500 : .tile224,
+                    size: geometry.size
+                )
             }.aspectRatio(1, contentMode: .fill)
             HStack(spacing: 0) {
                 if case .folders = tab, horizontalSizeClass == .regular {
