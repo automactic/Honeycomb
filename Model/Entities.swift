@@ -26,21 +26,19 @@ class CachedImage {
 }
 
 @Model
-class Server: CustomStringConvertible {
-    @Attribute(.unique) let url: URL
+class Server {
+    @Attribute(.unique) let name: String
+    let url: URL
     let username: String
     let sessionID: String
     let previewToken: String
     
-    init(url: URL, username: String, sessionID: String, previewToken: String) {
+    init(name: String, url: URL, username: String, sessionID: String, previewToken: String) {
+        self.name = name
         self.url = url
         self.username = username
         self.sessionID = sessionID
         self.previewToken = previewToken
-    }
-    
-    var description: String {
-        "\(username)@\(url.host() ?? "hostname")"
     }
 }
 
