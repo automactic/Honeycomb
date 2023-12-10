@@ -7,6 +7,7 @@
 
 import AppIntents
 import WidgetKit
+import SwiftData
 import SwiftUI
 
 struct ItemCountWidget: Widget {
@@ -47,7 +48,26 @@ struct ItemCountWidget: Widget {
     
     struct ServerOptionsProvider: DynamicOptionsProvider {
         func results() async throws -> [String] {
-            ["demo", "diskstation"]
+            let container = try ModelContainer(for: Server.self)
+            let servers = try ModelContext(container).fetch(FetchDescriptor<Server>())
+            return servers.map { $0.name }
+        }
+    }
+    
+    struct ServerChoice: AppEntity {
+        let id: UUID
+        let name: String
+        
+        static var defaultQuery = ServerChoiceQuery()
+        static var typeDisplayRepresentation: TypeDisplayRepresentation = "Server"
+        var displayRepresentation: DisplayRepresentation {
+            DisplayRepresentation(stringLiteral: name)
+        }
+    }
+    
+    struct ServerChoiceQuery: EntityQuery {
+        func entities(for identifiers: [ServerChoice.ID]) async throws -> [ServerChoice] {
+            []
         }
     }
     

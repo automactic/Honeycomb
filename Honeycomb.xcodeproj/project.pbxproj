@@ -23,6 +23,8 @@
 		974FEE472B2604B700F2A56A /* ItemCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE462B2604B700F2A56A /* ItemCount.swift */; };
 		974FEE492B2604B700F2A56A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 974FEE482B2604B700F2A56A /* Assets.xcassets */; };
 		974FEE4D2B2604B700F2A56A /* WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 974FEE3D2B2604B600F2A56A /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		974FEE5C2B264E5400F2A56A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5B2B264E5400F2A56A /* DataModels.swift */; };
+		974FEE5D2B264E8000F2A56A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5B2B264E5400F2A56A /* DataModels.swift */; };
 		97CB459C2B250550007AB339 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB459B2B250550007AB339 /* JSONDecoder.swift */; };
 		97D513862B1046DF00BBCF64 /* AddServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D513852B1046DF00BBCF64 /* AddServerView.swift */; };
 		97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FB62ACA1B2200FCF810 /* PhotosView.swift */; };
@@ -75,6 +77,9 @@
 		974FEE462B2604B700F2A56A /* ItemCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCount.swift; sourceTree = "<group>"; };
 		974FEE482B2604B700F2A56A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		974FEE4A2B2604B700F2A56A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		974FEE552B2635B900F2A56A /* Honeycomb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Honeycomb.entitlements; sourceTree = "<group>"; };
+		974FEE562B26367900F2A56A /* WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.entitlements; sourceTree = "<group>"; };
+		974FEE5B2B264E5400F2A56A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		97CB459B2B250550007AB339 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		97D513852B1046DF00BBCF64 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerView.swift; sourceTree = "<group>"; };
 		97E03FB62ACA1B2200FCF810 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
@@ -116,11 +121,12 @@
 			isa = PBXGroup;
 			children = (
 				970272F92AC9BCC5006282AB /* Constants.swift */,
+				974FEE5B2B264E5400F2A56A /* DataModels.swift */,
 				97E03FB82ACA1C6E00FCF810 /* DataSource.swift */,
 				970272FF2AC9C977006282AB /* Entities.swift */,
 				970273042AC9F6E1006282AB /* Enums.swift */,
-				97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */,
 				97CB459B2B250550007AB339 /* JSONDecoder.swift */,
+				97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */,
 				97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */,
 			);
 			path = Model;
@@ -148,6 +154,7 @@
 				974FEE432B2604B700F2A56A /* Widget */,
 				970272EE2AC9BABF006282AB /* App.swift */,
 				970272F32AC9BAC9006282AB /* Assets.xcassets */,
+				974FEE552B2635B900F2A56A /* Honeycomb.entitlements */,
 				970272F52AC9BAF4006282AB /* Preview Content */,
 				974FEE3E2B2604B600F2A56A /* Frameworks */,
 				9748919F2AC9BA6800DBFFA8 /* Products */,
@@ -178,6 +185,7 @@
 				974FEE442B2604B700F2A56A /* WidgetBundle.swift */,
 				974FEE462B2604B700F2A56A /* ItemCount.swift */,
 				974FEE482B2604B700F2A56A /* Assets.xcassets */,
+				974FEE562B26367900F2A56A /* WidgetExtension.entitlements */,
 				974FEE4A2B2604B700F2A56A /* Info.plist */,
 			);
 			path = Widget;
@@ -315,6 +323,7 @@
 				97E809912AD38D9200A27AF3 /* AlbumsViewModel.swift in Sources */,
 				970272FA2AC9BCC5006282AB /* Constants.swift in Sources */,
 				970273032AC9CCCC006282AB /* ComponentViews.swift in Sources */,
+				974FEE5C2B264E5400F2A56A /* DataModels.swift in Sources */,
 				97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */,
 				970273052AC9F6E1006282AB /* Enums.swift in Sources */,
 				97E03FBB2ACA1DB800FCF810 /* PhotosViewModel.swift in Sources */,
@@ -328,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				974FEE5D2B264E8000F2A56A /* DataModels.swift in Sources */,
 				974FEE452B2604B700F2A56A /* WidgetBundle.swift in Sources */,
 				974FEE472B2604B700F2A56A /* ItemCount.swift in Sources */,
 			);
@@ -471,6 +481,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Honeycomb.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
@@ -501,6 +512,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Honeycomb.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
@@ -530,6 +542,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L7HWM3SP3L;
@@ -558,6 +571,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/WidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L7HWM3SP3L;
