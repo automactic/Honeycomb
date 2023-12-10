@@ -40,34 +40,38 @@ struct ItemCountWidget: Widget {
         static var title: LocalizedStringResource = "Customize Widget"
 
         @Parameter(title: "Server", optionsProvider: ServerOptionsProvider())
-        var name: String
+        var name: ServerOption
         
         @Parameter(title: "Item", default: .photos)
         var item: CountableItem
     }
     
     struct ServerOptionsProvider: DynamicOptionsProvider {
-        func results() async throws -> [String] {
+        func results() async throws -> [ServerOption] {
             let container = try ModelContainer(for: Server.self)
             let servers = try ModelContext(container).fetch(FetchDescriptor<Server>())
-            return servers.map { $0.name }
+            return servers.map { ServerOption(id: $0.id, name: $0.name) }
         }
     }
     
-    struct ServerChoice: AppEntity {
+    struct ServerOption: AppEntity {
         let id: UUID
         let name: String
         
-        static var defaultQuery = ServerChoiceQuery()
+        static var defaultQuery = ServerOptionQuery()
         static var typeDisplayRepresentation: TypeDisplayRepresentation = "Server"
         var displayRepresentation: DisplayRepresentation {
             DisplayRepresentation(stringLiteral: name)
         }
     }
     
-    struct ServerChoiceQuery: EntityQuery {
-        func entities(for identifiers: [ServerChoice.ID]) async throws -> [ServerChoice] {
-            []
+    struct ServerOptionQuery: EntityQuery {
+        func entities(for identifiers: [ServerOption.ID]) async throws -> [ServerOption] {
+            var fetchDescriptor = FetchDescriptor<Server>()
+            fetchDescriptor.predicate = #Predicate<Server> { identifiers.contains($0.id) }
+            let container = try ModelContainer(for: Server.self)
+            let servers = try ModelContext(container).fetch(fetchDescriptor)
+            return servers.map { ServerOption(id: $0.id, name: $0.name) }
         }
     }
     

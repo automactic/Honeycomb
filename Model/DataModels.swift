@@ -25,13 +25,15 @@ class CachedImage {
 
 @Model
 class Server {
-    @Attribute(.unique) let name: String
+    @Attribute(.unique) let id: UUID
+    let name: String
     let url: URL
     let username: String
     let sessionID: String
     let previewToken: String
     
-    init(name: String, url: URL, username: String, sessionID: String, previewToken: String) {
+    init(id: UUID, name: String, url: URL, username: String, sessionID: String, previewToken: String) {
+        self.id = id
         self.name = name
         self.url = url
         self.username = username

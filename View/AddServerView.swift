@@ -87,6 +87,7 @@ struct AddServerView: View {
         guard let url = URL(string: viewModel.serverURL),
               let sessionData = viewModel.sessionData else { return }
         let server = Server(
+            id: UUID(),
             name: "\(sessionData.user.name)@\(url.host() ?? "hostname")",
             url: url,
             username: sessionData.user.name,
