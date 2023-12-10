@@ -25,6 +25,9 @@
 		974FEE4D2B2604B700F2A56A /* WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 974FEE3D2B2604B600F2A56A /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		974FEE5C2B264E5400F2A56A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5B2B264E5400F2A56A /* DataModels.swift */; };
 		974FEE5D2B264E8000F2A56A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5B2B264E5400F2A56A /* DataModels.swift */; };
+		974FEE602B265E3100F2A56A /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5F2B265E3100F2A56A /* ServerConfig.swift */; };
+		974FEE612B265EBD00F2A56A /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB459B2B250550007AB339 /* JSONDecoder.swift */; };
+		974FEE622B265EE200F2A56A /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5F2B265E3100F2A56A /* ServerConfig.swift */; };
 		97CB459C2B250550007AB339 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB459B2B250550007AB339 /* JSONDecoder.swift */; };
 		97D513862B1046DF00BBCF64 /* AddServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D513852B1046DF00BBCF64 /* AddServerView.swift */; };
 		97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FB62ACA1B2200FCF810 /* PhotosView.swift */; };
@@ -80,6 +83,7 @@
 		974FEE552B2635B900F2A56A /* Honeycomb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Honeycomb.entitlements; sourceTree = "<group>"; };
 		974FEE562B26367900F2A56A /* WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.entitlements; sourceTree = "<group>"; };
 		974FEE5B2B264E5400F2A56A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
+		974FEE5F2B265E3100F2A56A /* ServerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfig.swift; sourceTree = "<group>"; };
 		97CB459B2B250550007AB339 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		97D513852B1046DF00BBCF64 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerView.swift; sourceTree = "<group>"; };
 		97E03FB62ACA1B2200FCF810 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 		970272F82AC9BCBB006282AB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				974FEE5E2B265E0200F2A56A /* ServerData */,
 				970272F92AC9BCC5006282AB /* Constants.swift */,
 				974FEE5B2B264E5400F2A56A /* DataModels.swift */,
 				97E03FB82ACA1C6E00FCF810 /* DataSource.swift */,
@@ -189,6 +194,14 @@
 				974FEE4A2B2604B700F2A56A /* Info.plist */,
 			);
 			path = Widget;
+			sourceTree = "<group>";
+		};
+		974FEE5E2B265E0200F2A56A /* ServerData */ = {
+			isa = PBXGroup;
+			children = (
+				974FEE5F2B265E3100F2A56A /* ServerConfig.swift */,
+			);
+			path = ServerData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +336,7 @@
 				97E809912AD38D9200A27AF3 /* AlbumsViewModel.swift in Sources */,
 				970272FA2AC9BCC5006282AB /* Constants.swift in Sources */,
 				970273032AC9CCCC006282AB /* ComponentViews.swift in Sources */,
+				974FEE602B265E3100F2A56A /* ServerConfig.swift in Sources */,
 				974FEE5C2B264E5400F2A56A /* DataModels.swift in Sources */,
 				97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */,
 				970273052AC9F6E1006282AB /* Enums.swift in Sources */,
@@ -337,6 +351,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				974FEE622B265EE200F2A56A /* ServerConfig.swift in Sources */,
+				974FEE612B265EBD00F2A56A /* JSONDecoder.swift in Sources */,
 				974FEE5D2B264E8000F2A56A /* DataModels.swift in Sources */,
 				974FEE452B2604B700F2A56A /* WidgetBundle.swift in Sources */,
 				974FEE472B2604B700F2A56A /* ItemCount.swift in Sources */,

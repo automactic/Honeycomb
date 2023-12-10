@@ -51,15 +51,6 @@ struct Photo: Codable, Hashable, Identifiable {
     var id: String { uid }
 }
 
-/// API response data model for `http://photoprism.app:2342/api/v1/config`
-struct ServerConfig: Codable, Equatable {
-    static let path = "api/v1/config"
-    
-    let authMode: AuthMode
-    let name: String
-    let siteAuthor: String
-}
-
 /// API response data model for `http://photoprism.app:2342/api/v1/session`
 struct SessionData: Codable, Equatable {
     static let path = "api/v1/session"

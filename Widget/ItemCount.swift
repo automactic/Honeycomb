@@ -38,41 +38,9 @@ struct ItemCountWidget: Widget {
     
     struct ConfigIntent: WidgetConfigurationIntent {
         static var title: LocalizedStringResource = "Customize Widget"
-
-        @Parameter(title: "Server", optionsProvider: ServerOptionsProvider())
-        var name: ServerOption
         
         @Parameter(title: "Item", default: .photos)
         var item: CountableItem
-    }
-    
-    struct ServerOptionsProvider: DynamicOptionsProvider {
-        func results() async throws -> [ServerOption] {
-            let container = try ModelContainer(for: Server.self)
-            let servers = try ModelContext(container).fetch(FetchDescriptor<Server>())
-            return servers.map { ServerOption(id: $0.id, name: $0.name) }
-        }
-    }
-    
-    struct ServerOption: AppEntity {
-        let id: UUID
-        let name: String
-        
-        static var defaultQuery = ServerOptionQuery()
-        static var typeDisplayRepresentation: TypeDisplayRepresentation = "Server"
-        var displayRepresentation: DisplayRepresentation {
-            DisplayRepresentation(stringLiteral: name)
-        }
-    }
-    
-    struct ServerOptionQuery: EntityQuery {
-        func entities(for identifiers: [ServerOption.ID]) async throws -> [ServerOption] {
-            var fetchDescriptor = FetchDescriptor<Server>()
-            fetchDescriptor.predicate = #Predicate<Server> { identifiers.contains($0.id) }
-            let container = try ModelContainer(for: Server.self)
-            let servers = try ModelContext(container).fetch(fetchDescriptor)
-            return servers.map { ServerOption(id: $0.id, name: $0.name) }
-        }
     }
     
     enum CountableItem: String, AppEnum {
@@ -94,22 +62,34 @@ struct ItemCountWidget: Widget {
         }
         
         func snapshot(for configuration: ConfigIntent, in context: Context) async -> Entry {
-            Entry(date: Date(), count: 1024)
+            var fetchDescriptor = FetchDescriptor<Server>()
+//            fetchDescriptor.predicate = #Predicate<Server> { configuration.server.id == $0.id }
+            do {
+                let container = try ModelContainer(for: Server.self)
+                guard let server = try ModelContext(container).fetch(fetchDescriptor).first else {
+                    return Entry(date: Date(), count: -2)
+                }
+                let config = try await ServerConfig.get(server: server)
+                switch configuration.item {
+                case .photos:
+                    return Entry(date: Date(), count: config.count.photos)
+                case .videos:
+                    return Entry(date: Date(), count: config.count.videos)
+                case .favorites:
+                    return Entry(date: Date(), count: config.count.favorites)
+                }
+            } catch {
+                print(error)
+                return Entry(date: Date(), count: -1)
+            }
         }
         
         func timeline(for configuration: ConfigIntent, in context: Context) async -> Timeline<Entry> {
-            var entries: [Entry] = []
-
-            // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-            let currentDate = Date()
-            for hourOffset in 0 ..< 5 {
-                let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-                let entry = Entry(date: Date(), count: 1024)
-                entries.append(entry)
+            let entries = [await snapshot(for: configuration, in: context)]
+            guard let oneHourLater = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) else {
+                return Timeline(entries: entries, policy: .never)
             }
-
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            return timeline
+            return Timeline(entries: entries, policy: .after(oneHourLater))
         }
     }
 
