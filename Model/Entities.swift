@@ -8,20 +8,7 @@
 import Foundation
 import SwiftData
 
-struct APIError: Codable {
-    let error: String
-}
-
-struct Album: Codable, Hashable, Identifiable {
-    let uid: String
-    let thumb: String
-    let title: String
-    let location: String
-    let path: String
-    let createdAt: Date
-    
-    var id: String { uid }
-}
+// MARK: - Data Models
 
 @Model
 class CachedImage {
@@ -36,6 +23,40 @@ class CachedImage {
         self.size = data.count
         self.lastUsed = lastUsed
     }
+}
+
+@Model
+class Server {
+    @Attribute(.unique) let name: String
+    let url: URL
+    let username: String
+    let sessionID: String
+    let previewToken: String
+    
+    init(name: String, url: URL, username: String, sessionID: String, previewToken: String) {
+        self.name = name
+        self.url = url
+        self.username = username
+        self.sessionID = sessionID
+        self.previewToken = previewToken
+    }
+}
+
+// MARK: - API Objects
+
+struct APIError: Codable {
+    let error: String
+}
+
+struct Album: Codable, Hashable, Identifiable {
+    let uid: String
+    let thumb: String
+    let title: String
+    let location: String
+    let path: String
+    let createdAt: Date
+    
+    var id: String { uid }
 }
 
 struct File: Codable, Hashable, Identifiable {
@@ -65,17 +86,28 @@ struct Photo: Codable, Hashable, Identifiable {
     var id: String { uid }
 }
 
-struct ServerConfig: Codable {
+/// API response data model for `http://photoprism.app:2342/api/v1/config`
+struct ServerConfig: Codable, Equatable {
+    static let path = "api/v1/config"
+    
     let authMode: AuthMode
     let name: String
     let siteAuthor: String
 }
 
-struct SessionData: Codable {
+/// API response data model for `http://photoprism.app:2342/api/v1/session`
+struct SessionData: Codable, Equatable {
+    static let path = "api/v1/session"
+    
     let id: String
     let config: SessionConfig
+    let user: SessionUser
     
-    struct SessionConfig: Codable {
+    struct SessionConfig: Codable, Equatable {
         let previewToken: String
+    }
+    
+    struct SessionUser: Codable, Equatable {
+        let name: String
     }
 }

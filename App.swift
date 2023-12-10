@@ -11,7 +11,7 @@ import SwiftData
 @main
 struct Honeycomb: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([CachedImage.self])
+        let schema = Schema([CachedImage.self, Server.self])
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
             return try ModelContainer(for: schema, configurations: [configuration])
@@ -34,40 +34,44 @@ private struct RootView: View {
     @State private var isSignInPresented = false
     
     var body: some View {
-        Group {
-            if sessionID == nil {
-                EmptyView()
-            } else if horizontalSizeClass == .regular {
-                NavigationSplitView {
-                    List(Tab.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
-                        Label(libraryItem.name, systemImage: libraryItem.icon)
-                    }
-                } detail: {
-                    NavigationStack {
-                        NavigationContent(tab: selectedTab)
-                    }
-                }
-            } else {
-                TabView(selection: $selectedTab) {
-                    ForEach(Tab.allCases) { tab in
-                        NavigationStack {
-                            NavigationContent(tab: tab)
-                        }
-                        .tabItem { Label(tab.name, systemImage: tab.icon) }
-                        .tag(tab)
-                    }
-                }
-            }
+        NavigationStack {
+            SettingsView()
         }
-        .onAppear {
-            isSignInPresented = sessionID == nil
-        }
-        .onChange(of: sessionID) { _, newValue in
-            isSignInPresented = newValue == nil
-        }
-        .sheet(isPresented: $isSignInPresented) {
-            SignInView(isPresented: $isSignInPresented).interactiveDismissDisabled()
-        }
+        
+//        Group {
+//            if sessionID == nil {
+//                EmptyView()
+//            } else if horizontalSizeClass == .regular {
+//                NavigationSplitView {
+//                    List(Tab.allCases, id: \.self, selection: selectedSidebarItem) { libraryItem in
+//                        Label(libraryItem.name, systemImage: libraryItem.icon)
+//                    }
+//                } detail: {
+//                    NavigationStack {
+//                        NavigationContent(tab: selectedTab)
+//                    }
+//                }
+//            } else {
+//                TabView(selection: $selectedTab) {
+//                    ForEach(Tab.allCases) { tab in
+//                        NavigationStack {
+//                            NavigationContent(tab: tab)
+//                        }
+//                        .tabItem { Label(tab.name, systemImage: tab.icon) }
+//                        .tag(tab)
+//                    }
+//                }
+//            }
+//        }
+//        .onAppear {
+//            isSignInPresented = sessionID == nil
+//        }
+//        .onChange(of: sessionID) { _, newValue in
+//            isSignInPresented = newValue == nil
+//        }
+//        .sheet(isPresented: $isSignInPresented) {
+//            SignInView(isPresented: $isSignInPresented).interactiveDismissDisabled()
+//        }
     }
     
     private var selectedSidebarItem: Binding<Tab?> {
