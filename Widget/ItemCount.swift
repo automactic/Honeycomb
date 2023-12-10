@@ -5,14 +5,17 @@
 //  Created by Chris Li on 12/10/23.
 //
 
+import AppIntents
 import WidgetKit
 import SwiftUI
 
 struct ItemCountWidget: Widget {
-    let kind: String = "Widget"
-
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: ItemCountTimelineProvider()) { entry in
+        AppIntentConfiguration(
+            kind: "dev.chrisli.honeycomb.item-count",
+            intent: ItemCountConfigIntent.self,
+            provider: ItemCountTimelineProvider()
+        ) { entry in
             VStack(alignment: .trailing) {
                 HStack(alignment: .center) {
                     Image(systemName: "photo.circle").imageScale(.large).foregroundStyle(Color.blue)
@@ -31,17 +34,16 @@ struct ItemCountWidget: Widget {
     }
 }
 
-struct ItemCountTimelineProvider: TimelineProvider {
+struct ItemCountTimelineProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> ItemCountEntry {
         ItemCountEntry(date: Date(), count: 1024)
     }
-
-    func getSnapshot(in context: Context, completion: @escaping (ItemCountEntry) -> Void) {
-        let entry = ItemCountEntry(date: Date(), count: 1024)
-        completion(entry)
+    
+    func snapshot(for configuration: ItemCountConfigIntent, in context: Context) async -> ItemCountEntry {
+        ItemCountEntry(date: Date(), count: 1024)
     }
     
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+    func timeline(for configuration: ItemCountConfigIntent, in context: Context) async -> Timeline<ItemCountEntry> {
         var entries: [ItemCountEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -53,13 +55,34 @@ struct ItemCountTimelineProvider: TimelineProvider {
         }
 
         let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
+        return timeline
     }
 }
 
 struct ItemCountEntry: TimelineEntry {
     let date: Date
     let count: Int
+}
+
+struct ItemCountConfigIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource = "Customize Widget"
+
+    @Parameter(title: "Name")
+    var name: String
+    
+    @Parameter(title: "Item", default: .photos)
+    var item: CountableItem
+}
+
+enum CountableItem: String, AppEnum {
+    case photos, videos, favorites
+    
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Countable Item")
+    static var caseDisplayRepresentations: [CountableItem: DisplayRepresentation] = [
+        .photos: DisplayRepresentation(title: "Photos"),
+        .videos: DisplayRepresentation(title: "Videos"),
+        .favorites: DisplayRepresentation(title: "Favorites")
+    ]
 }
 
 #Preview(as: .systemSmall) {
