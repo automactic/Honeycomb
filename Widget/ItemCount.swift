@@ -27,6 +27,7 @@ struct ItemCountWidget: Widget {
         }
         .configurationDisplayName("Item Count")
         .description("Display item count in your PhotoPrism instance, such as photos, videos or favorites.")
+        .supportedFamilies([.systemSmall])
     }
 }
 
