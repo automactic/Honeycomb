@@ -67,11 +67,17 @@ struct ItemCountEntry: TimelineEntry {
 struct ItemCountConfigIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "Customize Widget"
 
-    @Parameter(title: "Name")
+    @Parameter(title: "Server", optionsProvider: ServerOptionsProvider())
     var name: String
     
     @Parameter(title: "Item", default: .photos)
     var item: CountableItem
+    
+    struct ServerOptionsProvider: DynamicOptionsProvider {
+        func results() async throws -> [String] {
+            ["demo", "diskstation"]
+        }
+    }
 }
 
 enum CountableItem: String, AppEnum {
