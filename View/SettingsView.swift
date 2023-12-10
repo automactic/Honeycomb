@@ -18,7 +18,7 @@ struct SettingsView: View {
             Section("Servers") {
                 ForEach(servers) { server in
                     NavigationLink(value: server) {
-                        Text(server.description)
+                        Text(server.name)
                     }
                 }
                 Button("Add New Server") {
@@ -38,7 +38,7 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationTitle(server.description)
+            .navigationTitle(server.name)
             .navigationBarTitleDisplayMode(.inline)
         }
         .sheet(isPresented: $isAddingNewServer) {
