@@ -52,7 +52,7 @@ struct AddServerView: View {
         Section {
             TextField("username", text: $viewModel.username)
                 .textContentType(.username)
-            TextField("password", text: $viewModel.password)
+            SecureField("password", text: $viewModel.password)
                 .textContentType(.password)
         } header: {
             Text("Credential")
@@ -87,6 +87,7 @@ struct AddServerView: View {
         guard let url = URL(string: viewModel.serverURL),
               let sessionData = viewModel.sessionData else { return }
         let server = Server(
+            name: "\(sessionData.user.name)@\(url.host() ?? "hostname")",
             url: url,
             username: sessionData.user.name,
             sessionID: sessionData.id,
