@@ -25,8 +25,8 @@ struct ItemCountWidget: Widget {
                     .font(.system(.title, design: .rounded)).fontWeight(.semibold)
             }.containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Item Count")
+        .description("Display item count in your PhotoPrism instance, such as photos, videos or favorites.")
     }
 }
 
