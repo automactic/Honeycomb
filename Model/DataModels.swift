@@ -24,20 +24,27 @@ class CachedImage {
 }
 
 @Model
-class Server {
-    @Attribute(.unique) let id: UUID
+class Server: CustomStringConvertible {
     let name: String
     let url: URL
     let username: String
     let sessionID: String
     let previewToken: String
     
-    init(id: UUID, name: String, url: URL, username: String, sessionID: String, previewToken: String) {
-        self.id = id
+    init(name: String, url: URL, username: String, sessionID: String, previewToken: String) {
         self.name = name
         self.url = url
         self.username = username
         self.sessionID = sessionID
         self.previewToken = previewToken
+    }
+    
+    var description: String {
+        let hostname = url.host() ?? "hostname"
+        if let port = url.port {
+            return "\(username)@\(hostname):\(port)"
+        } else {
+            return "\(username)@\(hostname)"
+        }
     }
 }

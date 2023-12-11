@@ -18,7 +18,10 @@ struct SettingsView: View {
             Section("Servers") {
                 ForEach(servers) { server in
                     NavigationLink(value: server) {
-                        Text(server.name)
+                        VStack(alignment: .leading) {
+                            Text(server.name)
+                            Text(server.description).font(.caption).foregroundStyle(.secondary)
+                        }
                     }
                 }
                 Button("Add New Server") {

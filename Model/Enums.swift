@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 enum ImageURLSuffix: String, Codable {
     case tile50 = "tile_50"
     case tile100 = "tile_100"

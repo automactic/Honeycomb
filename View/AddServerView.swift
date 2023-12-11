@@ -85,10 +85,10 @@ struct AddServerView: View {
     
     private func saveSessionData() {
         guard let url = URL(string: viewModel.serverURL),
+              let serverConfig = viewModel.serverConfig,
               let sessionData = viewModel.sessionData else { return }
         let server = Server(
-            id: UUID(),
-            name: "\(sessionData.user.name)@\(url.host() ?? "hostname")",
+            name: serverConfig.name,
             url: url,
             username: sessionData.user.name,
             sessionID: sessionData.id,
