@@ -18,15 +18,23 @@ struct ItemCountWidget: Widget {
             provider: TimelineProvider()
         ) { entry in
             VStack(alignment: .trailing) {
-                HStack(alignment: .center) {
-                    Image(systemName: "photo.circle").imageScale(.large).foregroundStyle(Color.blue)
+                HStack(alignment: .top) {
+                    switch entry.item {
+                    case .photos:
+                        Image(systemName: "photo.circle").imageScale(.large).foregroundStyle(Color.blue)
+                    case .videos:
+                        Image(systemName: "film.circle").imageScale(.large).foregroundStyle(Color.green)
+                    case .favorites:
+                        Image(systemName: "star.circle").imageScale(.large).symbolRenderingMode(.multicolor)
+                    }
                     Spacer()
-                    Text("Photos").font(.headline)
+                    VStack(alignment: .trailing) {
+                        Text(CountableItem.caseDisplayRepresentations[entry.item]?.title ?? "").font(.headline)
+                        Text("PhotoPrism").font(.caption).foregroundStyle(.secondary)
+                    }
                 }
-                Text("PhotoPrism").font(.caption).foregroundStyle(.secondary)
                 Spacer()
-                Text(entry.count.formatted())
-                    .font(.system(.title, design: .rounded)).fontWeight(.semibold)
+                Text(entry.count.formatted()).font(.system(.title, design: .rounded)).fontWeight(.semibold)
             }.containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Item Count")
@@ -106,6 +114,7 @@ struct ItemCountWidget: Widget {
 #Preview(as: .systemSmall) {
     ItemCountWidget()
 } timeline: {
-    ItemCountWidget.Entry(date: Date(), item: .photos, count: 1024)
     ItemCountWidget.Entry(date: Date(), item: .photos, count: 10468)
+    ItemCountWidget.Entry(date: Date(), item: .videos, count: 37)
+    ItemCountWidget.Entry(date: Date(), item: .favorites, count: 64)
 }
