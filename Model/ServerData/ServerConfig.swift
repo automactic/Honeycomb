@@ -22,9 +22,12 @@ struct ServerConfig: Codable, Equatable {
     }
 
     struct Count: Codable, Equatable {
+        let all: Int
         let photos: Int
         let videos: Int
+        let archived: Int
         let favorites: Int
+        let folders: Int
     }
     
     static func get(server: Server) async throws -> ServerConfig {

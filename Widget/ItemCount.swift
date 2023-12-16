@@ -10,6 +10,20 @@ import WidgetKit
 import SwiftData
 import SwiftUI
 
+enum CountableItem: String, AppEnum {
+    case all, photos, videos, archived, favorites, folders
+    
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Countable Item")
+    static var caseDisplayRepresentations: [CountableItem: DisplayRepresentation] = [
+        .all: DisplayRepresentation(title: "All"),
+        .photos: DisplayRepresentation(title: "Photos"),
+        .videos: DisplayRepresentation(title: "Videos"),
+        .archived: DisplayRepresentation(title: "Archived"),
+        .favorites: DisplayRepresentation(title: "Favorites"),
+        .folders: DisplayRepresentation(title: "Folders")
+    ]
+}
+
 struct SingleCounterWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
@@ -20,12 +34,18 @@ struct SingleCounterWidget: Widget {
             VStack(alignment: .trailing) {
                 HStack(alignment: .top) {
                     switch entry.item {
+                    case .all:
+                        Image(systemName: "infinity.circle").imageScale(.large).foregroundStyle(Color.purple)
                     case .photos:
                         Image(systemName: "photo.circle").imageScale(.large).foregroundStyle(Color.blue)
                     case .videos:
                         Image(systemName: "film.circle").imageScale(.large).foregroundStyle(Color.green)
+                    case .archived:
+                        Image(systemName: "archivebox.circle").imageScale(.large).foregroundStyle(Color.red)
                     case .favorites:
                         Image(systemName: "star.circle").imageScale(.large).symbolRenderingMode(.multicolor)
+                    case .folders:
+                        Image(systemName: "folder.circle").imageScale(.large).foregroundStyle(Color.orange)
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
@@ -51,17 +71,6 @@ struct SingleCounterWidget: Widget {
         var item: CountableItem
     }
     
-    enum CountableItem: String, AppEnum {
-        case photos, videos, favorites
-        
-        static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Countable Item")
-        static var caseDisplayRepresentations: [CountableItem: DisplayRepresentation] = [
-            .photos: DisplayRepresentation(title: "Photos"),
-            .videos: DisplayRepresentation(title: "Videos"),
-            .favorites: DisplayRepresentation(title: "Favorites")
-        ]
-    }
-    
     // MARK: Timeline
     
     struct TimelineProvider: AppIntentTimelineProvider {
@@ -80,12 +89,18 @@ struct SingleCounterWidget: Widget {
                 let serverConfig = try await ServerConfig.get(server: server)
                 let count: Int = {
                     switch configuration.item {
+                    case .all:
+                        return serverConfig.count.all
                     case .photos:
                         return serverConfig.count.photos
                     case .videos:
                         return serverConfig.count.videos
+                    case .archived:
+                        return serverConfig.count.archived
                     case .favorites:
                         return serverConfig.count.favorites
+                    case .folders:
+                        return serverConfig.count.folders
                     }
                 }()
                 return Entry(date: Date(), item: configuration.item, count: count)
@@ -114,7 +129,10 @@ struct SingleCounterWidget: Widget {
 #Preview(as: .systemSmall) {
     SingleCounterWidget()
 } timeline: {
+    SingleCounterWidget.Entry(date: Date(), item: .all, count: 14623)
     SingleCounterWidget.Entry(date: Date(), item: .photos, count: 10468)
     SingleCounterWidget.Entry(date: Date(), item: .videos, count: 37)
-    SingleCounterWidget.Entry(date: Date(), item: .favorites, count: 64)
+    SingleCounterWidget.Entry(date: Date(), item: .archived, count: 12)
+    SingleCounterWidget.Entry(date: Date(), item: .favorites, count: 16)
+    SingleCounterWidget.Entry(date: Date(), item: .folders, count: 66)
 }
