@@ -11,6 +11,6 @@ import SwiftUI
 @main
 struct AppWidgetBundle: WidgetBundle {
     var body: some Widget {
-        ItemCountWidget()
+        SingleCounterWidget()
     }
 }

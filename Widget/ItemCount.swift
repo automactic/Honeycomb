@@ -10,10 +10,10 @@ import WidgetKit
 import SwiftData
 import SwiftUI
 
-struct ItemCountWidget: Widget {
+struct SingleCounterWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
-            kind: "dev.chrisli.honeycomb.item-count",
+            kind: "dev.chrisli.honeycomb.single-counter",
             intent: Configuration.self,
             provider: TimelineProvider()
         ) { entry in
@@ -37,8 +37,8 @@ struct ItemCountWidget: Widget {
                 Text(entry.count.formatted()).font(.system(.title, design: .rounded)).fontWeight(.semibold)
             }.containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName("Item Count")
-        .description("Display item count in your PhotoPrism instance, such as photos, videos or favorites.")
+        .configurationDisplayName("Counter")
+        .description("A single counter of items in your PhotoPrism instance, such as photos, videos or favorites.")
         .supportedFamilies([.systemSmall])
     }
     
@@ -112,9 +112,9 @@ struct ItemCountWidget: Widget {
 }
 
 #Preview(as: .systemSmall) {
-    ItemCountWidget()
+    SingleCounterWidget()
 } timeline: {
-    ItemCountWidget.Entry(date: Date(), item: .photos, count: 10468)
-    ItemCountWidget.Entry(date: Date(), item: .videos, count: 37)
-    ItemCountWidget.Entry(date: Date(), item: .favorites, count: 64)
+    SingleCounterWidget.Entry(date: Date(), item: .photos, count: 10468)
+    SingleCounterWidget.Entry(date: Date(), item: .videos, count: 37)
+    SingleCounterWidget.Entry(date: Date(), item: .favorites, count: 64)
 }
