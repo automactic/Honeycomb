@@ -10,8 +10,26 @@ import WidgetKit
 import SwiftData
 import SwiftUI
 
-enum CountableItem: String, AppEnum {
+enum CountableItem: String, AppEnum, CaseIterable, Identifiable {
     case all, photos, videos, archived, favorites, folders
+    
+    var id: String { rawValue }
+    var name: String {
+        switch self {
+        case .all:
+            "All"
+        case .photos:
+            "Photos"
+        case .videos:
+            "Videos"
+        case .archived:
+            "Archived"
+        case .favorites:
+            "Favorites"
+        case .folders:
+            "Folders"
+        }
+    }
     
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Countable Item")
     static var caseDisplayRepresentations: [CountableItem: DisplayRepresentation] = [
@@ -122,6 +140,29 @@ struct CounterValue: View {
     }
 }
 
+struct MultiCounterDetail: View {
+    @Environment(\.widgetContentMargins) var margins
+    
+    let excluded: CountableItem
+    let itemCounts: ServerConfig.Count
+    
+    var body: some View {
+        VStack(alignment: .trailing) {
+            ForEach(CountableItem.allCases.filter({ $0 != excluded })) { item in
+                HStack {
+                    Label {
+                        Text(item.name)
+                    } icon: {
+                        CountableItemIcon(item: item)
+                    }
+                    Spacer()
+                    CounterValue(item: item, itemCounts: itemCounts).foregroundStyle(.secondary)
+                }.font(.caption).frame(maxHeight: .infinity)
+            }
+        }.padding(margins).background(.bar)
+    }
+}
+
 // MARK: - Widgets
 
 struct SingleCounterWidget: Widget {
@@ -136,7 +177,7 @@ struct SingleCounterWidget: Widget {
                     CountableItemIcon(item: entry.item).imageScale(.large)
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text(CountableItem.caseDisplayRepresentations[entry.item]?.title ?? "").font(.headline)
+                        Text(entry.item.name).font(.headline)
                         Text("PhotoPrism").font(.caption).foregroundStyle(.secondary)
                     }
                 }
@@ -148,8 +189,32 @@ struct SingleCounterWidget: Widget {
             }.containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Counter")
-        .description("A single counter of items in your PhotoPrism instance, such as photos, videos or favorites.")
+        .description("Counter of items in your PhotoPrism instance, such as photos, videos or favorites.")
         .supportedFamilies([.systemSmall])
+    }
+}
+
+struct MultiCounterWidget: Widget {
+    var body: some WidgetConfiguration {
+        AppIntentConfiguration(
+            kind: "dev.chrisli.honeycomb.multi-counter",
+            intent: CounterConfig.self,
+            provider: CounterTimelineProvider()
+        ) { entry in
+            if let itemCounts = entry.itemCounts {
+                HStack(spacing: 0) {
+                    Text("Prominent").frame(maxWidth: .infinity)
+                    Divider()
+                    MultiCounterDetail(excluded: entry.item, itemCounts: itemCounts).frame(maxWidth: .infinity)
+                }.containerBackground(.fill.tertiary, for: .widget)
+            }
+        }
+        .configurationDisplayName("Counters")
+        .description(
+            "Counters of items in your PhotoPrism instance, with a selected item taking a prominent position."
+        )
+        .contentMarginsDisabled()
+        .supportedFamilies([.systemMedium])
     }
 }
 
@@ -162,4 +227,10 @@ struct SingleCounterWidget: Widget {
     CounterEntry(date: Date(), item: .archived, itemCounts: CounterTimelineProvider.placeholderItemCounts)
     CounterEntry(date: Date(), item: .favorites, itemCounts: CounterTimelineProvider.placeholderItemCounts)
     CounterEntry(date: Date(), item: .folders, itemCounts: CounterTimelineProvider.placeholderItemCounts)
+}
+
+#Preview(as: .systemMedium) {
+    MultiCounterWidget()
+} timeline: {
+    CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
 }
