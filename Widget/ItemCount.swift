@@ -95,21 +95,22 @@ struct CounterEntry: TimelineEntry {
 
 struct CountableItemIcon: View {
     let item: CountableItem
+    let isProminent: Bool
     
     var body: some View {
         switch item {
         case .all:
-            Image(systemName: "infinity.circle").foregroundStyle(Color.purple)
+            Image(systemName: isProminent ? "infinity.circle" : "infinity").foregroundStyle(Color.purple)
         case .photos:
-            Image(systemName: "photo.circle").foregroundStyle(Color.blue)
+            Image(systemName: isProminent ? "photo.circle" : "photo").foregroundStyle(Color.blue)
         case .videos:
-            Image(systemName: "film.circle").foregroundStyle(Color.green)
+            Image(systemName: isProminent ? "film.circle" : "film").foregroundStyle(Color.green)
         case .archived:
-            Image(systemName: "archivebox.circle").foregroundStyle(Color.red)
+            Image(systemName: isProminent ? "archivebox.circle" : "archivebox").foregroundStyle(Color.red)
         case .favorites:
-            Image(systemName: "star.circle").symbolRenderingMode(.multicolor)
+            Image(systemName: isProminent ? "star.circle" : "star").symbolRenderingMode(.multicolor)
         case .folders:
-            Image(systemName: "folder.circle").foregroundStyle(Color.orange)
+            Image(systemName: isProminent ? "folder.circle" : "folder").foregroundStyle(Color.orange)
         }
     }
 }
@@ -149,7 +150,7 @@ struct SingleCounter: View {
     var body: some View {
         VStack(alignment: .trailing) {
             HStack(alignment: .top) {
-                CountableItemIcon(item: item).imageScale(.large)
+                CountableItemIcon(item: item, isProminent: true).imageScale(.large)
                 Spacer()
                 VStack(alignment: .trailing) {
                     Text(item.name).font(.headline)
@@ -176,7 +177,7 @@ struct CounterDetails: View {
                     Label {
                         Text(item.name)
                     } icon: {
-                        CountableItemIcon(item: item)
+                        CountableItemIcon(item: item, isProminent: false)
                     }
                     Spacer()
                     CounterValue(item: item, itemCounts: itemCounts).foregroundStyle(.secondary)
