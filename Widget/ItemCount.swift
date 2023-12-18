@@ -196,23 +196,14 @@ struct SingleCounterWidget: Widget {
             provider: CounterTimelineProvider()
         ) { entry in
             VStack(alignment: .trailing) {
-                HStack(alignment: .top) {
-                    CountableItemIcon(item: entry.item).imageScale(.large)
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        Text(entry.item.name).font(.headline)
-                        Text("PhotoPrism").font(.caption).foregroundStyle(.secondary)
-                    }
-                }
-                Spacer()
                 if let itemCounts = entry.itemCounts {
-                    CounterValue(item: entry.item, itemCounts: itemCounts)
-                        .font(.system(.title, design: .rounded)).fontWeight(.semibold)
+                    SingleCounter(item: entry.item, itemCounts: itemCounts)
                 }
             }.containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Counter")
         .description("Counter of items in your PhotoPrism instance, such as photos, videos or favorites.")
+        .contentMarginsDisabled()
         .supportedFamilies([.systemSmall])
     }
 }
