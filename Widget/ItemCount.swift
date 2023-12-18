@@ -140,7 +140,30 @@ struct CounterValue: View {
     }
 }
 
-struct MultiCounterDetail: View {
+struct SingleCounter: View {
+    @Environment(\.widgetContentMargins) var margins
+    
+    let item: CountableItem
+    let itemCounts: ServerConfig.Count
+    
+    var body: some View {
+        VStack(alignment: .trailing) {
+            HStack(alignment: .top) {
+                CountableItemIcon(item: item).imageScale(.large)
+                Spacer()
+                VStack(alignment: .trailing) {
+                    Text(item.name).font(.headline)
+                    Text("PhotoPrism").font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            Spacer()
+            CounterValue(item: item, itemCounts: itemCounts)
+                .font(.system(.title, design: .rounded)).fontWeight(.semibold)
+        }.padding(margins)
+    }
+}
+
+struct CounterDetails: View {
     @Environment(\.widgetContentMargins) var margins
     
     let excluded: CountableItem
@@ -203,9 +226,9 @@ struct MultiCounterWidget: Widget {
         ) { entry in
             if let itemCounts = entry.itemCounts {
                 HStack(spacing: 0) {
-                    Text("Prominent").frame(maxWidth: .infinity)
+                    SingleCounter(item: entry.item, itemCounts: itemCounts).frame(maxWidth: .infinity)
                     Divider()
-                    MultiCounterDetail(excluded: entry.item, itemCounts: itemCounts).frame(maxWidth: .infinity)
+                    CounterDetails(excluded: entry.item, itemCounts: itemCounts).frame(maxWidth: .infinity)
                 }.containerBackground(.fill.tertiary, for: .widget)
             }
         }
