@@ -148,13 +148,29 @@ struct CounterValue: View {
     }
 }
 
-struct SingleCounter: View {
-    @Environment(\.widgetContentMargins) var margins
+struct ItemCounterView: View {
+    @Environment(\.widgetFamily) private var family
+    @Environment(\.widgetContentMargins) private var margins
     
     let item: CountableItem
     let itemCounts: ServerConfig.Count
     
     var body: some View {
+        switch family {
+        case .systemSmall:
+            prominent
+        case .systemMedium:
+            HStack(spacing: 0) {
+                prominent.frame(maxWidth: .infinity)
+                Divider()
+                details.frame(maxWidth: .infinity)
+            }.containerBackground(.fill.tertiary, for: .widget)
+        default:
+            EmptyView()
+        }
+    }
+    
+    private var prominent: some View {
         VStack(alignment: .trailing) {
             HStack(alignment: .top) {
                 CountableItemIcon(item: item, isProminent: true).imageScale(.large)
@@ -169,17 +185,10 @@ struct SingleCounter: View {
                 .font(.system(.title, design: .rounded)).fontWeight(.semibold)
         }.padding(margins)
     }
-}
-
-struct CounterDetails: View {
-    @Environment(\.widgetContentMargins) var margins
     
-    let excluded: CountableItem
-    let itemCounts: ServerConfig.Count
-    
-    var body: some View {
+    private var details: some View {
         VStack(alignment: .trailing) {
-            ForEach(CountableItem.allCases.filter({ $0 != excluded })) { item in
+            ForEach(CountableItem.allCases.filter({ $0 != item })) { item in
                 HStack {
                     Label {
                         Text(item.name)
@@ -196,52 +205,29 @@ struct CounterDetails: View {
 
 // MARK: - Widgets
 
-struct SingleCounterWidget: Widget {
+struct ItemCounterWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
-            kind: "dev.chrisli.honeycomb.single-counter",
-            intent: CounterConfig.self,
-            provider: CounterTimelineProvider()
-        ) { entry in
-            VStack(alignment: .trailing) {
-                if let itemCounts = entry.itemCounts {
-                    SingleCounter(item: entry.item, itemCounts: itemCounts)
-                }
-            }.containerBackground(.fill.tertiary, for: .widget)
-        }
-        .configurationDisplayName("Counter")
-        .description("Counter of items in your PhotoPrism instance, such as photos, videos or favorites.")
-        .contentMarginsDisabled()
-        .supportedFamilies([.systemSmall])
-    }
-}
-
-struct MultiCounterWidget: Widget {
-    var body: some WidgetConfiguration {
-        AppIntentConfiguration(
-            kind: "dev.chrisli.honeycomb.multi-counter",
+            kind: "dev.chrisli.honeycomb.item-counter",
             intent: CounterConfig.self,
             provider: CounterTimelineProvider()
         ) { entry in
             if let itemCounts = entry.itemCounts {
-                HStack(spacing: 0) {
-                    SingleCounter(item: entry.item, itemCounts: itemCounts).frame(maxWidth: .infinity)
-                    Divider()
-                    CounterDetails(excluded: entry.item, itemCounts: itemCounts).frame(maxWidth: .infinity)
-                }.containerBackground(.fill.tertiary, for: .widget)
+                ItemCounterView(item: entry.item, itemCounts: itemCounts)
+                    .containerBackground(.fill.tertiary, for: .widget)
+            } else {
+                Text("Error").containerBackground(.fill.tertiary, for: .widget)
             }
         }
-        .configurationDisplayName("Counters")
-        .description(
-            "Counters of items in your PhotoPrism instance, with a selected item taking a prominent position."
-        )
+        .configurationDisplayName("Counter")
+        .description("Counter of items in your PhotoPrism instance, such as photos, videos or favorites.")
         .contentMarginsDisabled()
-        .supportedFamilies([.systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
 #Preview(as: .systemSmall) {
-    SingleCounterWidget()
+    ItemCounterWidget()
 } timeline: {
     CounterEntry(date: Date(), item: .all, itemCounts: CounterTimelineProvider.placeholderItemCounts)
     CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
@@ -252,7 +238,7 @@ struct MultiCounterWidget: Widget {
 }
 
 #Preview(as: .systemMedium) {
-    MultiCounterWidget()
+    ItemCounterWidget()
 } timeline: {
     CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
 }
