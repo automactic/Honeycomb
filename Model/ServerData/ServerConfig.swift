@@ -28,6 +28,7 @@ struct ServerConfig: Codable, Equatable {
         let archived: Int
         let favorites: Int
         let folders: Int
+        let labels: Int
     }
     
     static func get(server: Server) async throws -> ServerConfig {

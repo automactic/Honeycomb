@@ -11,7 +11,7 @@ import SwiftData
 import SwiftUI
 
 enum CountableItem: String, AppEnum, CaseIterable, Identifiable {
-    case all, photos, videos, archived, favorites, folders
+    case all, photos, videos, archived, favorites, folders, labels
     
     var id: String { rawValue }
     var name: String {
@@ -28,6 +28,8 @@ enum CountableItem: String, AppEnum, CaseIterable, Identifiable {
             "Favorites"
         case .folders:
             "Folders"
+        case .labels:
+            "Labels"
         }
     }
     
@@ -38,7 +40,8 @@ enum CountableItem: String, AppEnum, CaseIterable, Identifiable {
         .videos: DisplayRepresentation(title: "Videos"),
         .archived: DisplayRepresentation(title: "Archived"),
         .favorites: DisplayRepresentation(title: "Favorites"),
-        .folders: DisplayRepresentation(title: "Folders")
+        .folders: DisplayRepresentation(title: "Folders"),
+        .labels: DisplayRepresentation(title: "Labels")
     ]
 }
 
@@ -53,7 +56,7 @@ struct CounterConfig: WidgetConfigurationIntent {
 
 struct CounterTimelineProvider: AppIntentTimelineProvider {
     static let placeholderItemCounts = ServerConfig.Count(
-        all: 14769, photos: 11308, videos: 3453, archived: 12, favorites: 16, folders: 66
+        all: 14769, photos: 11308, videos: 3453, archived: 12, favorites: 16, folders: 66, labels: 72
     )
     
     func placeholder(in context: Context) -> CounterEntry {
@@ -111,6 +114,8 @@ struct CountableItemIcon: View {
             Image(systemName: isProminent ? "star.circle" : "star").symbolRenderingMode(.multicolor)
         case .folders:
             Image(systemName: isProminent ? "folder.circle" : "folder").foregroundStyle(Color.orange)
+        case .labels:
+            Image(systemName: isProminent ? "tag.circle" : "tag").foregroundStyle(Color.teal)
         }
     }
 }
@@ -137,6 +142,8 @@ struct CounterValue: View {
             return itemCounts.favorites
         case .folders:
             return itemCounts.folders
+        case .labels:
+            return itemCounts.labels
         }
     }
 }
