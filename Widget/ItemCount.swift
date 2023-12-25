@@ -125,7 +125,10 @@ struct CounterValue: View {
     let itemCounts: ServerConfig.Count
     
     var body: some View {
-        Text(count.formatted())
+        ViewThatFits {
+            Text(count.formatted())
+            Text(count.formatted(.number.notation(.compactName)))
+        }
     }
     
     private var count: Int {
@@ -165,6 +168,27 @@ struct ItemCounterView: View {
                 Divider()
                 details.frame(maxWidth: .infinity)
             }.containerBackground(.fill.tertiary, for: .widget)
+        case .accessoryInline:
+            Label {
+                CounterValue(item: item, itemCounts: itemCounts)
+            } icon: {
+                CountableItemIcon(item: item, isProminent: false)
+            }
+        case .accessoryCircular:
+            ZStack {
+                AccessoryWidgetBackground()
+                VStack {
+                    CountableItemIcon(item: item, isProminent: false).font(.caption)
+                    CounterValue(item: item, itemCounts: itemCounts)
+                }
+            }
+        case .accessoryRectangular:
+            Text("PhotoPrism")
+            Label {
+                CounterValue(item: item, itemCounts: itemCounts)
+            } icon: {
+                CountableItemIcon(item: item, isProminent: false)
+            }
         default:
             EmptyView()
         }
@@ -222,7 +246,7 @@ struct ItemCounterWidget: Widget {
         .configurationDisplayName("Counter")
         .description("Counter of items in your PhotoPrism instance, such as photos, videos or favorites.")
         .contentMarginsDisabled()
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryInline, .accessoryCircular, .accessoryRectangular])
     }
 }
 
@@ -238,6 +262,24 @@ struct ItemCounterWidget: Widget {
 }
 
 #Preview(as: .systemMedium) {
+    ItemCounterWidget()
+} timeline: {
+    CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
+}
+
+#Preview(as: .accessoryInline) {
+    ItemCounterWidget()
+} timeline: {
+    CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
+}
+
+#Preview(as: .accessoryCircular) {
+    ItemCounterWidget()
+} timeline: {
+    CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
+}
+
+#Preview(as: .accessoryRectangular) {
     ItemCounterWidget()
 } timeline: {
     CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
