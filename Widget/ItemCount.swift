@@ -64,8 +64,8 @@ struct CounterTimelineProvider: AppIntentTimelineProvider {
     }
     
     func snapshot(for configuration: CounterConfig, in context: Context) async -> CounterEntry {
-        let fetchDescriptor = FetchDescriptor<Server>()
-//            fetchDescriptor.predicate = #Predicate<Server> { configuration.server.id == $0.id }
+        var fetchDescriptor = FetchDescriptor<Server>()
+        fetchDescriptor.predicate = #Predicate<Server> { $0.isActive == true }
         do {
             let container = try ModelContainer(for: Server.self)
             guard let server = try ModelContext(container).fetch(fetchDescriptor).first else {

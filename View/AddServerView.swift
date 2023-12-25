@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SwiftData
 import SwiftUI
 
 struct AddServerView: View {
@@ -41,7 +42,7 @@ struct AddServerView: View {
             if viewModel.serverURL.isEmpty {
                 Text("Enter the URL of your PhotoPrism instance.")
             } else if let serverConfig = viewModel.serverConfig {
-                Text("Server Name: \(serverConfig.name)")
+                Text("Server Name: \(serverConfig.appName)")
             } else {
                 Text("Invalid PhotoPrism instance URL.")
             }
@@ -87,10 +88,14 @@ struct AddServerView: View {
         guard let url = URL(string: viewModel.serverURL),
               let serverConfig = viewModel.serverConfig,
               let sessionData = viewModel.sessionData else { return }
+        try? modelContext.fetch(FetchDescriptor<Server>()).forEach { server in
+            server.isActive = false
+        }
         let server = Server(
-            name: serverConfig.name,
+            name: serverConfig.appName,
             url: url,
             username: sessionData.user.name,
+            isActive: true,
             sessionID: sessionData.id,
             previewToken: sessionData.config.previewToken
         )

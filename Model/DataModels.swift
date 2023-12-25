@@ -28,13 +28,15 @@ class Server: CustomStringConvertible {
     let name: String
     let url: URL
     let username: String
+    var isActive: Bool
     let sessionID: String
     let previewToken: String
     
-    init(name: String, url: URL, username: String, sessionID: String, previewToken: String) {
+    init(name: String, url: URL, username: String, isActive: Bool, sessionID: String, previewToken: String) {
         self.name = name
         self.url = url
         self.username = username
+        self.isActive = isActive
         self.sessionID = sessionID
         self.previewToken = previewToken
     }

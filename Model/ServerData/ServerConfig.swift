@@ -11,8 +11,8 @@ import Foundation
 struct ServerConfig: Codable, Equatable {
     static let path = "api/v1/config"
     
+    let appName: String
     let authMode: AuthMode
-    let name: String
     let siteAuthor: String
     let count: Count
     

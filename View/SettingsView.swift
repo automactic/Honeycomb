@@ -18,9 +18,15 @@ struct SettingsView: View {
             Section("Servers") {
                 ForEach(servers) { server in
                     NavigationLink(value: server) {
-                        VStack(alignment: .leading) {
-                            Text(server.name)
-                            Text(server.description).font(.caption).foregroundStyle(.secondary)
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(server.name)
+                                Text(server.description).font(.caption).foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            if server.isActive {
+                                Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                            }
                         }
                     }
                 }
@@ -31,18 +37,7 @@ struct SettingsView: View {
         }
         .navigationTitle("Settings")
         .navigationDestination(for: Server.self) { server in
-            Form {
-                Section {
-                    Text("Server").badge(server.url.absoluteString)
-                }
-                Section {
-                    Button("Sign Out", role: .destructive) {
-                        modelContext.delete(server)
-                    }
-                }
-            }
-            .navigationTitle(server.name)
-            .navigationBarTitleDisplayMode(.inline)
+            ServerDetailView(server: server)
         }
         .sheet(isPresented: $isAddingNewServer) {
             NavigationStack {
@@ -55,6 +50,42 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+}
+
+private struct ServerDetailView: View {
+    @Environment(\.modelContext) private var modelContext
+    
+    let server: Server
+    
+    var body: some View {
+        Form {
+            Section {
+                Text("Server").badge(server.url.absoluteString)
+                Text("Name").badge(server.name)
+                Text("Username").badge(server.username)
+            }
+            Section {
+                if server.isActive {
+                    HStack {
+                        Text("Active Server")
+                        Spacer()
+                        Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                    }
+                } else {
+                    Button("Set As Active") {
+                        server.isActive = true
+                    }
+                }
+            }
+            Section {
+                Button("Sign Out", role: .destructive) {
+                    modelContext.delete(server)
+                }
+            }
+        }
+        .navigationTitle(server.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
