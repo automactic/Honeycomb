@@ -8,6 +8,7 @@
 import Combine
 import SwiftData
 import SwiftUI
+import WidgetKit
 
 struct AddServerView: View {
     @Environment(\.dismiss) private var dismiss
@@ -100,6 +101,7 @@ struct AddServerView: View {
             previewToken: sessionData.config.previewToken
         )
         modelContext.insert(server)
+        WidgetCenter.shared.reloadTimelines(ofKind: WidgetIdentifier.itemCount.rawValue)
     }
 }
 

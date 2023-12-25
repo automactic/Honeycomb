@@ -1,6 +1,6 @@
 //
-//  Widget.swift
-//  Widget
+//  CountableItem.swift
+//  CountableItem
 //
 //  Created by Chris Li on 12/10/23.
 //
@@ -60,7 +60,7 @@ struct CounterTimelineProvider: AppIntentTimelineProvider {
     )
     
     func placeholder(in context: Context) -> CounterEntry {
-        CounterEntry(date: Date(), item: .photos, itemCounts: CounterTimelineProvider.placeholderItemCounts)
+        CounterEntry(date: Date(), itemCounts: CounterTimelineProvider.placeholderItemCounts)
     }
     
     func snapshot(for configuration: CounterConfig, in context: Context) async -> CounterEntry {
@@ -69,13 +69,15 @@ struct CounterTimelineProvider: AppIntentTimelineProvider {
         do {
             let container = try ModelContainer(for: Server.self)
             guard let server = try ModelContext(container).fetch(fetchDescriptor).first else {
-                return CounterEntry(date: Date(), item: configuration.item, itemCounts: nil)
+                return CounterEntry(date: Date(), item: configuration.item)
             }
             let serverConfig = try await ServerConfig.get(server: server)
-            return CounterEntry(date: Date(), item: configuration.item, itemCounts: serverConfig.count)
+            return CounterEntry(
+                date: Date(), serverName: server.name, item: configuration.item, itemCounts: serverConfig.count
+            )
         } catch {
             print(error)
-            return CounterEntry(date: Date(), item: configuration.item, itemCounts: nil)
+            return CounterEntry(date: Date(), item: configuration.item)
         }
     }
     
@@ -90,8 +92,16 @@ struct CounterTimelineProvider: AppIntentTimelineProvider {
 
 struct CounterEntry: TimelineEntry {
     let date: Date
+    let serverName: String
     let item: CountableItem
     let itemCounts: ServerConfig.Count?
+    
+    init(date: Date, serverName: String? = nil, item: CountableItem? = nil, itemCounts: ServerConfig.Count? = nil) {
+        self.date = date
+        self.serverName = serverName ?? "PhotoPrism"
+        self.item = item ?? .photos
+        self.itemCounts = itemCounts
+    }
 }
 
 // MARK: - Views
@@ -155,6 +165,7 @@ struct ItemCounterView: View {
     @Environment(\.widgetFamily) private var family
     @Environment(\.widgetContentMargins) private var margins
     
+    let serverName: String
     let item: CountableItem
     let itemCounts: ServerConfig.Count
     
@@ -183,7 +194,7 @@ struct ItemCounterView: View {
                 }
             }
         case .accessoryRectangular:
-            Text("PhotoPrism")
+            Text(serverName)
             Label {
                 CounterValue(item: item, itemCounts: itemCounts)
             } icon: {
@@ -201,7 +212,7 @@ struct ItemCounterView: View {
                 Spacer()
                 VStack(alignment: .trailing) {
                     Text(item.name).font(.headline)
-                    Text("PhotoPrism").font(.caption).foregroundStyle(.secondary)
+                    Text(serverName).font(.caption).foregroundStyle(.secondary)
                 }
             }
             Spacer()
@@ -232,12 +243,12 @@ struct ItemCounterView: View {
 struct ItemCounterWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
-            kind: "dev.chrisli.honeycomb.item-counter",
+            kind: WidgetIdentifier.itemCount.rawValue,
             intent: CounterConfig.self,
             provider: CounterTimelineProvider()
         ) { entry in
             if let itemCounts = entry.itemCounts {
-                ItemCounterView(item: entry.item, itemCounts: itemCounts)
+                ItemCounterView(serverName: entry.serverName, item: entry.item, itemCounts: itemCounts)
                     .containerBackground(.fill.tertiary, for: .widget)
             } else {
                 Text("Error").containerBackground(.fill.tertiary, for: .widget)

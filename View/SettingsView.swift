@@ -7,6 +7,7 @@
 
 import SwiftData
 import SwiftUI
+import WidgetKit
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -74,7 +75,11 @@ private struct ServerDetailView: View {
                     }
                 } else {
                     Button("Set As Active") {
+                        try? modelContext.fetch(FetchDescriptor<Server>()).forEach { server in
+                            server.isActive = false
+                        }
                         server.isActive = true
+                        WidgetCenter.shared.reloadTimelines(ofKind: WidgetIdentifier.itemCount.rawValue)
                     }
                 }
             }
