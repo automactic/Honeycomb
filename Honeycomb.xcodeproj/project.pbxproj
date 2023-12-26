@@ -17,6 +17,19 @@
 		970273052AC9F6E1006282AB /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970273042AC9F6E1006282AB /* Enums.swift */; };
 		970273092ACA0BE0006282AB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970273082ACA0BE0006282AB /* SettingsView.swift */; };
 		97360F642ACBAC4800C8F51C /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97360F632ACBAC4800C8F51C /* GalleryView.swift */; };
+		974FEE402B2604B600F2A56A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 974FEE3F2B2604B600F2A56A /* WidgetKit.framework */; };
+		974FEE422B2604B600F2A56A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 974FEE412B2604B600F2A56A /* SwiftUI.framework */; };
+		974FEE452B2604B700F2A56A /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE442B2604B700F2A56A /* WidgetBundle.swift */; };
+		974FEE472B2604B700F2A56A /* CountableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE462B2604B700F2A56A /* CountableItem.swift */; };
+		974FEE492B2604B700F2A56A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 974FEE482B2604B700F2A56A /* Assets.xcassets */; };
+		974FEE4D2B2604B700F2A56A /* WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 974FEE3D2B2604B600F2A56A /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		974FEE5C2B264E5400F2A56A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5B2B264E5400F2A56A /* DataModels.swift */; };
+		974FEE5D2B264E8000F2A56A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5B2B264E5400F2A56A /* DataModels.swift */; };
+		974FEE602B265E3100F2A56A /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5F2B265E3100F2A56A /* ServerConfig.swift */; };
+		974FEE612B265EBD00F2A56A /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB459B2B250550007AB339 /* JSONDecoder.swift */; };
+		974FEE622B265EE200F2A56A /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974FEE5F2B265E3100F2A56A /* ServerConfig.swift */; };
+		97A5B6432B3A0D900090BA68 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A5B6422B3A0D900090BA68 /* Enum.swift */; };
+		97A5B6442B3A0DDF0090BA68 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A5B6422B3A0D900090BA68 /* Enum.swift */; };
 		97CB459C2B250550007AB339 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB459B2B250550007AB339 /* JSONDecoder.swift */; };
 		97D513862B1046DF00BBCF64 /* AddServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D513852B1046DF00BBCF64 /* AddServerView.swift */; };
 		97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E03FB62ACA1B2200FCF810 /* PhotosView.swift */; };
@@ -25,6 +38,30 @@
 		97E8098F2AD2E4F300A27AF3 /* AlbumsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E8098E2AD2E4F300A27AF3 /* AlbumsView.swift */; };
 		97E809912AD38D9200A27AF3 /* AlbumsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		974FEE4B2B2604B700F2A56A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 974891962AC9BA6800DBFFA8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 974FEE3C2B2604B600F2A56A;
+			remoteInfo = WidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		974FEE4E2B2604B800F2A56A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				974FEE4D2B2604B700F2A56A /* WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		970272EE2AC9BABF006282AB /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -38,6 +75,18 @@
 		970273082ACA0BE0006282AB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		97360F632ACBAC4800C8F51C /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		9748919E2AC9BA6800DBFFA8 /* Honeycomb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Honeycomb.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		974FEE3D2B2604B600F2A56A /* WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		974FEE3F2B2604B600F2A56A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		974FEE412B2604B600F2A56A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		974FEE442B2604B700F2A56A /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
+		974FEE462B2604B700F2A56A /* CountableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountableItem.swift; sourceTree = "<group>"; };
+		974FEE482B2604B700F2A56A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		974FEE4A2B2604B700F2A56A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		974FEE552B2635B900F2A56A /* Honeycomb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Honeycomb.entitlements; sourceTree = "<group>"; };
+		974FEE562B26367900F2A56A /* WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetExtension.entitlements; sourceTree = "<group>"; };
+		974FEE5B2B264E5400F2A56A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
+		974FEE5F2B265E3100F2A56A /* ServerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfig.swift; sourceTree = "<group>"; };
+		97A5B6422B3A0D900090BA68 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		97CB459B2B250550007AB339 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		97D513852B1046DF00BBCF64 /* AddServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServerView.swift; sourceTree = "<group>"; };
 		97E03FB62ACA1B2200FCF810 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
@@ -55,6 +104,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		974FEE3A2B2604B600F2A56A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				974FEE422B2604B600F2A56A /* SwiftUI.framework in Frameworks */,
+				974FEE402B2604B600F2A56A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -69,12 +127,15 @@
 		970272F82AC9BCBB006282AB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				97A5B6422B3A0D900090BA68 /* Enum.swift */,
+				974FEE5E2B265E0200F2A56A /* ServerData */,
 				970272F92AC9BCC5006282AB /* Constants.swift */,
+				974FEE5B2B264E5400F2A56A /* DataModels.swift */,
 				97E03FB82ACA1C6E00FCF810 /* DataSource.swift */,
 				970272FF2AC9C977006282AB /* Entities.swift */,
 				970273042AC9F6E1006282AB /* Enums.swift */,
-				97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */,
 				97CB459B2B250550007AB339 /* JSONDecoder.swift */,
+				97E809902AD38D9200A27AF3 /* AlbumsViewModel.swift */,
 				97E03FBA2ACA1DB800FCF810 /* PhotosViewModel.swift */,
 			);
 			path = Model;
@@ -99,9 +160,12 @@
 			children = (
 				970272F82AC9BCBB006282AB /* Model */,
 				970272FC2AC9BED2006282AB /* View */,
+				974FEE432B2604B700F2A56A /* Widget */,
 				970272EE2AC9BABF006282AB /* App.swift */,
 				970272F32AC9BAC9006282AB /* Assets.xcassets */,
+				974FEE552B2635B900F2A56A /* Honeycomb.entitlements */,
 				970272F52AC9BAF4006282AB /* Preview Content */,
+				974FEE3E2B2604B600F2A56A /* Frameworks */,
 				9748919F2AC9BA6800DBFFA8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,8 +174,38 @@
 			isa = PBXGroup;
 			children = (
 				9748919E2AC9BA6800DBFFA8 /* Honeycomb.app */,
+				974FEE3D2B2604B600F2A56A /* WidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		974FEE3E2B2604B600F2A56A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				974FEE3F2B2604B600F2A56A /* WidgetKit.framework */,
+				974FEE412B2604B600F2A56A /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		974FEE432B2604B700F2A56A /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				974FEE442B2604B700F2A56A /* WidgetBundle.swift */,
+				974FEE462B2604B700F2A56A /* CountableItem.swift */,
+				974FEE482B2604B700F2A56A /* Assets.xcassets */,
+				974FEE562B26367900F2A56A /* WidgetExtension.entitlements */,
+				974FEE4A2B2604B700F2A56A /* Info.plist */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		974FEE5E2B265E0200F2A56A /* ServerData */ = {
+			isa = PBXGroup;
+			children = (
+				974FEE5F2B265E3100F2A56A /* ServerConfig.swift */,
+			);
+			path = ServerData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,15 +219,34 @@
 				9748919A2AC9BA6800DBFFA8 /* Sources */,
 				9748919B2AC9BA6800DBFFA8 /* Frameworks */,
 				9748919C2AC9BA6800DBFFA8 /* Resources */,
+				974FEE4E2B2604B800F2A56A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				974FEE4C2B2604B700F2A56A /* PBXTargetDependency */,
 			);
 			name = Honeycomb;
 			productName = Honeycomb;
 			productReference = 9748919E2AC9BA6800DBFFA8 /* Honeycomb.app */;
 			productType = "com.apple.product-type.application";
+		};
+		974FEE3C2B2604B600F2A56A /* WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 974FEE512B2604B800F2A56A /* Build configuration list for PBXNativeTarget "WidgetExtension" */;
+			buildPhases = (
+				974FEE392B2604B600F2A56A /* Sources */,
+				974FEE3A2B2604B600F2A56A /* Frameworks */,
+				974FEE3B2B2604B600F2A56A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WidgetExtension;
+			productName = WidgetExtension;
+			productReference = 974FEE3D2B2604B600F2A56A /* WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -147,6 +260,9 @@
 				TargetAttributes = {
 					9748919D2AC9BA6800DBFFA8 = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					974FEE3C2B2604B600F2A56A = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 				};
 			};
@@ -164,6 +280,7 @@
 			projectRoot = "";
 			targets = (
 				9748919D2AC9BA6800DBFFA8 /* Honeycomb */,
+				974FEE3C2B2604B600F2A56A /* WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -175,6 +292,14 @@
 			files = (
 				970272F72AC9BAF4006282AB /* Preview Assets.xcassets in Resources */,
 				970272F42AC9BAC9006282AB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		974FEE3B2B2604B600F2A56A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				974FEE492B2604B700F2A56A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,16 +340,40 @@
 				97E809912AD38D9200A27AF3 /* AlbumsViewModel.swift in Sources */,
 				970272FA2AC9BCC5006282AB /* Constants.swift in Sources */,
 				970273032AC9CCCC006282AB /* ComponentViews.swift in Sources */,
+				974FEE602B265E3100F2A56A /* ServerConfig.swift in Sources */,
+				974FEE5C2B264E5400F2A56A /* DataModels.swift in Sources */,
 				97E03FB72ACA1B2200FCF810 /* PhotosView.swift in Sources */,
 				970273052AC9F6E1006282AB /* Enums.swift in Sources */,
 				97E03FBB2ACA1DB800FCF810 /* PhotosViewModel.swift in Sources */,
+				97A5B6432B3A0D900090BA68 /* Enum.swift in Sources */,
 				97CB459C2B250550007AB339 /* JSONDecoder.swift in Sources */,
 				97E03FB92ACA1C6E00FCF810 /* DataSource.swift in Sources */,
 				970272FE2AC9BEF5006282AB /* SignInView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		974FEE392B2604B600F2A56A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				974FEE622B265EE200F2A56A /* ServerConfig.swift in Sources */,
+				974FEE612B265EBD00F2A56A /* JSONDecoder.swift in Sources */,
+				97A5B6442B3A0DDF0090BA68 /* Enum.swift in Sources */,
+				974FEE5D2B264E8000F2A56A /* DataModels.swift in Sources */,
+				974FEE452B2604B700F2A56A /* WidgetBundle.swift in Sources */,
+				974FEE472B2604B700F2A56A /* CountableItem.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		974FEE4C2B2604B700F2A56A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 974FEE3C2B2604B600F2A56A /* WidgetExtension */;
+			targetProxy = 974FEE4B2B2604B700F2A56A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		974891AC2AC9BA6800DBFFA8 /* Debug */ = {
@@ -351,8 +500,10 @@
 		974891AF2AC9BA6800DBFFA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Honeycomb.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
@@ -380,8 +531,10 @@
 		974891B02AC9BA6800DBFFA8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Honeycomb.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
@@ -406,6 +559,64 @@
 			};
 			name = Release;
 		};
+		974FEE4F2B2604B800F2A56A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/WidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L7HWM3SP3L;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.chrisli.Honeycomb.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		974FEE502B2604B800F2A56A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/WidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L7HWM3SP3L;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.chrisli.Honeycomb.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -423,6 +634,15 @@
 			buildConfigurations = (
 				974891AF2AC9BA6800DBFFA8 /* Debug */,
 				974891B02AC9BA6800DBFFA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		974FEE512B2604B800F2A56A /* Build configuration list for PBXNativeTarget "WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				974FEE4F2B2604B800F2A56A /* Debug */,
+				974FEE502B2604B800F2A56A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

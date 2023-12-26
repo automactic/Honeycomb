@@ -6,41 +6,6 @@
 //
 
 import Foundation
-import SwiftData
-
-// MARK: - Data Models
-
-@Model
-class CachedImage {
-    @Attribute(.unique) let url: String
-    let data: Data
-    let size: Int
-    var lastUsed: Date
-    
-    init(url: String, data: Data, lastUsed: Date) {
-        self.url = url
-        self.data = data
-        self.size = data.count
-        self.lastUsed = lastUsed
-    }
-}
-
-@Model
-class Server {
-    @Attribute(.unique) let name: String
-    let url: URL
-    let username: String
-    let sessionID: String
-    let previewToken: String
-    
-    init(name: String, url: URL, username: String, sessionID: String, previewToken: String) {
-        self.name = name
-        self.url = url
-        self.username = username
-        self.sessionID = sessionID
-        self.previewToken = previewToken
-    }
-}
 
 // MARK: - API Objects
 
@@ -84,15 +49,6 @@ struct Photo: Codable, Hashable, Identifiable {
     var files: [File]
     
     var id: String { uid }
-}
-
-/// API response data model for `http://photoprism.app:2342/api/v1/config`
-struct ServerConfig: Codable, Equatable {
-    static let path = "api/v1/config"
-    
-    let authMode: AuthMode
-    let name: String
-    let siteAuthor: String
 }
 
 /// API response data model for `http://photoprism.app:2342/api/v1/session`
