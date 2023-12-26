@@ -35,13 +35,13 @@ enum CountableItem: String, AppEnum, CaseIterable, Identifiable {
     
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Countable Item")
     static var caseDisplayRepresentations: [CountableItem: DisplayRepresentation] = [
-        .all: DisplayRepresentation(title: "All"),
-        .photos: DisplayRepresentation(title: "Photos"),
-        .videos: DisplayRepresentation(title: "Videos"),
-        .archived: DisplayRepresentation(title: "Archived"),
-        .favorites: DisplayRepresentation(title: "Favorites"),
-        .folders: DisplayRepresentation(title: "Folders"),
-        .labels: DisplayRepresentation(title: "Labels")
+        .all: DisplayRepresentation(title: "All", image: .init(systemName: "infinity")),
+        .photos: DisplayRepresentation(title: "Photos", image: .init(systemName: "photo")),
+        .videos: DisplayRepresentation(title: "Videos", image: .init(systemName: "film")),
+        .archived: DisplayRepresentation(title: "Archived", image: .init(systemName: "archivebox")),
+        .favorites: DisplayRepresentation(title: "Favorites", image: .init(systemName: "star")),
+        .folders: DisplayRepresentation(title: "Folders", image: .init(systemName: "folder")),
+        .labels: DisplayRepresentation(title: "Labels", image: .init(systemName: "tag"))
     ]
 }
 
@@ -178,7 +178,7 @@ struct ItemCounterView: View {
                 prominent.frame(maxWidth: .infinity)
                 Divider()
                 details.frame(maxWidth: .infinity)
-            }.containerBackground(.fill.tertiary, for: .widget)
+            }
         case .accessoryInline:
             Label {
                 CounterValue(item: item, itemCounts: itemCounts)
